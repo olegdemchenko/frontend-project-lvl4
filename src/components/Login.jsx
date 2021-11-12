@@ -9,19 +9,19 @@ import logo from '../../assets/img/loginIcon.jpeg';
 import TextInput from './TextInput';
 
 export default () =>  {
-  const nicknameRef = React.createRef();
+  const usernameRef = React.createRef();
   
   useEffect(() => {
-    nicknameRef.current.focus();
+    usernameRef.current.focus();
   }, []);
   
-  const NickNameWithRef = React.forwardRef((props, ref) => {
+  const UserNameWithRef = React.forwardRef((props, ref) => {
     return (
       <TextInput 
         className="form-control"
         label="Your nickname"
-        name="nickname"
-        id="nickname"
+        name="username"
+        id="username"
         placeholder="Your nickname"
         type="text"
         forwardedRef={ref}
@@ -42,7 +42,7 @@ export default () =>  {
               </div>
               <Formik 
                 initialValues={{
-                  nickname: '',
+                  username: '',
                   password: ''
                 }}
                 /* TODO Move this validation to registration process
@@ -55,10 +55,10 @@ export default () =>  {
                   .matches(/[!_&^*()#@]+/, 'Password should contain special characters')
                   .required()
                 })}*/
-                onSubmit={async ({ nickname, password }) => {
+                onSubmit={async ({ username, password }) => {
                   try {
-                    const { data: { token } } = await axios.post('/api/v1/login', { username: nickname, password });                   
-                    localStorage.setItem('authData', JSON.stringify({ username: nickname, password, token }));
+                    const { data: { token } } = await axios.post('/api/v1/login', { username, password });                   
+                    localStorage.setItem('authData', JSON.stringify({ username, password, token }));
                     navigate('/');
                   } catch (e) {
                     console.log(e.message);
@@ -68,7 +68,7 @@ export default () =>  {
                 <Form className="col-12 col-md-6 mt-3 mt-mb-0">
                   <h1 className="text-center mb-4">Enter</h1>
                   
-                    <NickNameWithRef ref={nicknameRef} />
+                    <UserNameWithRef ref={usernameRef} />
                   
                     <TextInput 
                       className="form-control"
