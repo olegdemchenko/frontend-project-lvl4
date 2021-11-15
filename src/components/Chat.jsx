@@ -6,7 +6,6 @@ import AuthContext from '../contexts/AuthContext';
 export default () => {
   return <AuthContext.Consumer>
     {(value) => {
-      console.log(value);
       if (value && value.token) {
         return <div>Main chat page</div>
       }

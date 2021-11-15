@@ -1,36 +1,45 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import logo from '../../assets/img/loginIcon.jpeg';
 import TextInput from './TextInput';
 
+const errorMessages = {
+  'unauthorized': 'Incorrect login or password',
+  'error': 'Error has occured. Please, try again later',
+};
+
 export default () =>  {
+  const [loginStatus, setLoginStatus] = useState('filling');
   const usernameRef = React.createRef();
   
   useEffect(() => {
-    usernameRef.current.focus();
-  }, []);
+    usernameRef.current && usernameRef.current.focus();
+  }, [loginStatus]);
   
+  if (loginStatus === 'authorized') {
+    return <Navigate to="/"/>;
+  }
+
   const UserNameWithRef = React.forwardRef((props, ref) => {
     return (
       <TextInput 
-        className="form-control"
         label="Your nickname"
         name="username"
         id="username"
         placeholder="Your nickname"
         type="text"
         forwardedRef={ref}
+        isInvalid={loginStatus !== 'filling'}
         required
       />
     );
   });
 
-  const navigate = useNavigate();
   return (
     <div className="container-fluid h-100">
       <div className="row justify-content-center align-content-center h-100">
@@ -59,9 +68,13 @@ export default () =>  {
                   try {
                     const { data: { token } } = await axios.post('/api/v1/login', { username, password });                   
                     localStorage.setItem('authData', JSON.stringify({ username, password, token }));
-                    navigate('/');
+                    setLoginStatus('authorized');
                   } catch (e) {
-                    console.log(e.message);
+                    if (e.response.status === 401) {
+                      setLoginStatus('unauthorized');
+                    } else {
+                      setLoginStatus('error');
+                    }
                   }
                 }}
               >
@@ -71,12 +84,13 @@ export default () =>  {
                     <UserNameWithRef ref={usernameRef} />
                   
                     <TextInput 
-                      className="form-control"
                       label="Your password"
                       name="password"
                       id="password"
                       placeholder="Your password"
                       type="text"
+                      isInvalid={loginStatus !== 'filling'}
+                      error={loginStatus !== 'filling' ? errorMessages[loginStatus] : ''}
                       required
                     />
                   
