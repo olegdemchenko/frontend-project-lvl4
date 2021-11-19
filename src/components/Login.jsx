@@ -1,29 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
 
+import routes from '../routes';
+import useAuth from '../hooks/index.jsx';
 import logo from '../../assets/img/loginIcon.jpeg';
 import TextInput from './TextInput';
 
-const errorMessages = {
-  'unauthorized': 'Incorrect login or password',
-  'error': 'Error has occured. Please, try again later',
-};
-
 export default () =>  {
-  const [loginStatus, setLoginStatus] = useState('filling');
-  const usernameRef = React.createRef();
+  const { logIn } = useAuth();
+  const [authFailed, setAuthFailed] = useState(false);
+  const usernameRef = useRef();
+  const navigate = useNavigate();
+  const location = useLocation();
   
   useEffect(() => {
-    usernameRef.current && usernameRef.current.focus();
-  }, [loginStatus]);
-  
-  if (loginStatus === 'authorized') {
-    return <Navigate to="/"/>;
-  }
+    usernameRef.current.focus();
+  }, []);
 
   const UserNameWithRef = React.forwardRef((props, ref) => {
     return (
@@ -34,7 +30,7 @@ export default () =>  {
         placeholder="Your nickname"
         type="text"
         forwardedRef={ref}
-        isInvalid={loginStatus !== 'filling'}
+        isInvalid={authFailed}
         required
       />
     );
@@ -66,15 +62,17 @@ export default () =>  {
                 })}*/
                 onSubmit={async ({ username, password }) => {
                   try {
-                    const { data: { token } } = await axios.post('/api/v1/login', { username, password });                   
-                    localStorage.setItem('authData', JSON.stringify({ username, password, token }));
-                    setLoginStatus('authorized');
+                    const { data } = await axios.post(routes.loginPath(), { username, password });                   
+                    localStorage.setItem('userId', JSON.stringify(data));
+                    logIn();
+                    const from = location.state?.from?.pathname ?? '/';
+                    navigate(from);
                   } catch (e) {
-                    if (e.response.status === 401) {
-                      setLoginStatus('unauthorized');
-                    } else {
-                      setLoginStatus('error');
-                    }
+                    if (e.isAxiosError && e.response.status === 401) {
+                      setAuthFailed(true);
+                      return;
+                    } 
+                    throw e;
                   }
                 }}
               >
@@ -89,8 +87,8 @@ export default () =>  {
                       id="password"
                       placeholder="Your password"
                       type="text"
-                      isInvalid={loginStatus !== 'filling'}
-                      error={loginStatus !== 'filling' ? errorMessages[loginStatus] : ''}
+                      isInvalid={authFailed}
+                      error={"Incorrect login or password"}
                       required
                     />
                   
