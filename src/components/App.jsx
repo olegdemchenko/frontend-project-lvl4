@@ -21,8 +21,8 @@ const AuthProvider = ({ children }) => {
     <authContext.Provider value={{ loggedIn, logIn, logOut }}>
       {children}
     </authContext.Provider>
-  )
-}
+  );
+};
 
 const RequireAuth = ({ children }) => {
   const location = useLocation();

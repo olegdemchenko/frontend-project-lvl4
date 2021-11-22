@@ -12,4 +12,11 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
+const normalizeMainPageLayout = () => {
+  document.body.classList.add('bg-light');
+  document.body.firstElementChild.classList.remove('container-lg', 'p-3');
+};
+
+normalizeMainPageLayout();
+
 ReactDOM.render(<App />, document.getElementById('chat'));
