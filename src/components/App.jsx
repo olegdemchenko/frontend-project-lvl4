@@ -9,7 +9,8 @@ import authContext from '../contexts/AuthContext';
 import useAuth from '../hooks/index.jsx';
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const isAuthorized = localStorage.getItem('userId') ?? false;
+  const [loggedIn, setLoggedIn] = useState(isAuthorized);
 
   const logIn = () => setLoggedIn(true);
   const logOut = () => {
