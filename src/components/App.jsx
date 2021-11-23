@@ -37,8 +37,8 @@ const RequireAuth = ({ children }) => {
 export default () => {
   return (
     <BrowserRouter>
-      <Header />
       <AuthProvider>
+        <Header />
         <Routes>
           <Route path="/" element={
             <RequireAuth>
