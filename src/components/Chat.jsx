@@ -9,7 +9,7 @@ const renderChannels = (channels, currentChannelId) => {
     return null;
   }
   return (
-    <Nav className="flex-column" variant="pills" fill>
+    <Nav className="flex-column px-2" variant="pills" fill>
       {channels.map(({ id, name }) => {
         return (
           <Nav.Item key={id}>
