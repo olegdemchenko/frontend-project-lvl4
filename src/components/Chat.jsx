@@ -1,7 +1,40 @@
 import React from 'react';
-import { Container, Row, Col, Form, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, InputGroup, Nav } from 'react-bootstrap';
+import cn from 'classnames';
+
+import { useGetChannelsQuery } from '../store/api';
+
+const renderChannels = (channels, currentChannelId) => {
+  if (channels.length === 0) {
+    return null;
+  }
+  return (
+    <Nav className="flex-column" variant="pills" fill>
+      {channels.map(({ id, name }) => {
+        return (
+          <Nav.Item key={id}>
+            <button
+              className={cn("btn w-100 rounded-0 text-start", {
+                "btn-secondary": currentChannelId === id
+              })}
+             >
+             {name}
+            </button>
+          </Nav.Item>
+        );
+      })}
+    </Nav>
+  );
+}
 
 export default () => {
+  const { data, isError, error } = useGetChannelsQuery();
+  if (isError) {
+    return <div>JSON.stringify(error)</div>
+  }
+  const { channels, messages, currentChannelId } = data ?? { channels: [], messages: [], currentChannelId: null };
+  const currentChannel = channels.find(({ id }) => id === currentChannelId) ?? { name: '' };
+  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100 bg-white flex-md-row">
@@ -16,14 +49,24 @@ export default () => {
               <span className="visually-hidden">+</span>
             </button>
           </div>
+          {renderChannels(channels, currentChannelId)}
         </Col>
         <Col className="p-0 h-100">
           <div className="d-flex flex-column h-100">
             <div className="bg-light mb-4 p-3 shadow-sm small">
-              <p className="m-0">Channel name</p>
-              <span className="text-muted">Count of messages</span>
+              <p className="m-0">{currentChannel.name}</p>
+              <span className="text-muted">{currentChannelMessages.length}</span>
             </div>
-            <div className="chat-messages overflow-auto px-5" id="messages-box"></div>
+            <div className="chat-messages overflow-auto px-5" id="messages-box">
+              {currentChannelMessages.map(({ id, author, text }) => {
+                return (
+                  <div key={id} className="text-break mb-2">
+                    {<b>{author}</b>}
+                    {`: ${text}`}
+                  </div>
+                )
+              })}
+            </div>
             <div className="mt-auto px-5 py-3">
               <Form noValidate className="py-1 border rounder-2">
                 <InputGroup hasValidation>

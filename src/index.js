@@ -4,7 +4,9 @@ import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
+import store from './store/store.js';
 import App from './components/App.jsx';
 import '../assets/application.scss';
 
@@ -19,4 +21,8 @@ const normalizeMainPageLayout = () => {
 
 normalizeMainPageLayout();
 
-ReactDOM.render(<App />, document.getElementById('chat'));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('chat'));
