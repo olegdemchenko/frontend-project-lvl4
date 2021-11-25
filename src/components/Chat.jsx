@@ -1,8 +1,22 @@
-import React from 'react';
-import { Container, Row, Col, Form, InputGroup, Nav } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { 
+  Container,
+  Row,
+  Col,
+  Form,
+  InputGroup,
+  Nav
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 
-import { useGetChannelsQuery } from '../store/api';
+import { fetchChatState } from '../store/chatSlice';
+import { 
+  selectChannels, 
+  selectCurrentChannel, 
+  selectChannelMessages, 
+  selectCurrentChannelId
+} from '../store/chatSlice';
 
 const renderChannels = (channels, currentChannelId) => {
   if (channels.length === 0) {
@@ -28,13 +42,14 @@ const renderChannels = (channels, currentChannelId) => {
 }
 
 export default () => {
-  const { data, isError, error } = useGetChannelsQuery();
-  if (isError) {
-    return <div>JSON.stringify(error)</div>
-  }
-  const { channels, messages, currentChannelId } = data ?? { channels: [], messages: [], currentChannelId: null };
-  const currentChannel = channels.find(({ id }) => id === currentChannelId) ?? { name: '' };
-  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchChatState());
+  }, []);
+  const channels = useSelector(selectChannels);
+  const currentChannel = useSelector(selectCurrentChannel);
+  const currentChannelId = useSelector(selectCurrentChannelId);
+  const currentMessages = useSelector(selectChannelMessages);
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100 bg-white flex-md-row">
@@ -54,11 +69,11 @@ export default () => {
         <Col className="p-0 h-100">
           <div className="d-flex flex-column h-100">
             <div className="bg-light mb-4 p-3 shadow-sm small">
-              <p className="m-0">{currentChannel.name}</p>
-              <span className="text-muted">{currentChannelMessages.length}</span>
+              <p className="m-0">{currentChannel?.name ?? ''}</p>
+              <span className="text-muted">{currentMessages.length}</span>
             </div>
             <div className="chat-messages overflow-auto px-5" id="messages-box">
-              {currentChannelMessages.map(({ id, author, text }) => {
+              {currentMessages.map(({ id, author, text }) => {
                 return (
                   <div key={id} className="text-break mb-2">
                     {<b>{author}</b>}
