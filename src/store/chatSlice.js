@@ -13,17 +13,28 @@ export const fetchChatState = createAsyncThunk('chat/fetchChatState', async () =
 const chatSlice = createSlice({
   name: 'chat',
   initialState: {
-    status: null,
+    status: 'init',
     channels: [],
     messages: [],
     currentChannelId: null,
     error: null,
   },
   reducers: {
+    addNewMessage(state, action) {
+      state.status = 'sendingMessageSuccess';
+      state.messages.push(action.payload);
+    },
+    handleConnectionError(state, action) {
+      state.status = 'websocketConnectionError';
+      state.error = action.payload;
+    },
+    setSendingMessageStatus(state) {
+      state.status = 'sendingMessage';
+    }
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchChatState.pending, (state, action) => {
+      .addCase(fetchChatState.pending, (state) => {
         state.status = 'fetchingChatData';
       })
       .addCase(fetchChatState.fulfilled, (state, action) => {
@@ -39,10 +50,16 @@ const chatSlice = createSlice({
   } 
 });
 
+export const { 
+  addNewMessage, 
+  handleConnectionError,
+  setSendingMessageStatus,
+} = chatSlice.actions;
+
 export const selectStatus = (state) => state.status;
 export const selectChannels = (state) => state.channels;
 export const selectCurrentChannel = (state) => state.channels.find(({ id }) => id === state.currentChannelId);
 export const selectCurrentChannelId = (state) => state.currentChannelId;
-export const selectChannelMessages = (state) => state.messages.filter(({ id }) => id === state.currentChannelId); 
+export const selectChannelMessages = (state) => state.messages.filter(({ channelId }) => channelId === state.currentChannelId); 
 
 export default chatSlice.reducer;
