@@ -42,8 +42,14 @@ export default () => {
   }, []);
 
   const sendMessage = (message) => {
-    dispatch(setSendingMessageStatus());
-    socket.current.emit('newMessage', message);
+    dispatch(setSendingMessageStatus('sendingMessage'));
+    socket.current.emit('newMessage', message, ({ status }) => {
+      if (status === 'ok') {
+        dispatch(setSendingMessageStatus('sendingMessageSuccess'));
+      } else {
+        dispatch(handleConnectionError('Problem with sending message'));
+      }
+    });
   };
   const chatStatus = useSelector(selectStatus);
   if (chatStatus.includes('error')) {

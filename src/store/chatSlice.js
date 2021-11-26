@@ -21,15 +21,15 @@ const chatSlice = createSlice({
   },
   reducers: {
     addNewMessage(state, action) {
-      state.status = 'sendingMessageSuccess';
+      state.status = 'newMessage';
       state.messages.push(action.payload);
     },
     handleConnectionError(state, action) {
       state.status = 'websocketConnectionError';
       state.error = action.payload;
     },
-    setSendingMessageStatus(state) {
-      state.status = 'sendingMessage';
+    setSendingMessageStatus(state, action) {
+      state.status = action.payload;
     }
   },
   extraReducers(builder) {
