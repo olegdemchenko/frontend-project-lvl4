@@ -11,8 +11,8 @@ import {
   selectChannelMessages, 
   selectCurrentChannelId,
   addNewMessage,
-  handleConnectionError,
-  setSendingMessageStatus,
+  handleError,
+  setStatus,
 } from '../store/chatSlice';
 import ChannelsList from './ChannelsList.jsx';
 import Messages from './Messages.jsx';
@@ -31,7 +31,7 @@ export default () => {
     });
     socket.current.on('connect_error', () => {
       console.log('connection error');
-      dispatch(handleConnectionError('Websocket connection error'));
+      dispatch(handleError('Websocket connection error'));
     });
     socket.current.on('newMessage', (message) => {
       dispatch(addNewMessage(message));
@@ -42,12 +42,12 @@ export default () => {
   }, []);
 
   const sendMessage = (message) => {
-    dispatch(setSendingMessageStatus('sendingMessage'));
+    dispatch(setStatus('sendingMessage'));
     socket.current.emit('newMessage', message, ({ status }) => {
       if (status === 'ok') {
-        dispatch(setSendingMessageStatus('sendingMessageSuccess'));
+        dispatch(setStatus('sendingMessageSuccess'));
       } else {
-        dispatch(handleConnectionError('Problem with sending message'));
+        dispatch(handleError('Problem with sending message'));
       }
     });
   };

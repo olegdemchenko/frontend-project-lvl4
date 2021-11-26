@@ -24,11 +24,11 @@ const chatSlice = createSlice({
       state.status = 'newMessage';
       state.messages.push(action.payload);
     },
-    handleConnectionError(state, action) {
-      state.status = 'websocketConnectionError';
+    handleError(state, action) {
+      state.status = 'error';
       state.error = action.payload;
     },
-    setSendingMessageStatus(state, action) {
+    setStatus(state, action) {
       state.status = action.payload;
     }
   },
@@ -44,7 +44,7 @@ const chatSlice = createSlice({
         state.currentChannelId = action.payload.currentChannelId;
       })
       .addCase(fetchChatState.rejected, (state, action) => {
-        state.status = 'fetchingChatDataError';
+        state.status = 'error';
         state.error = action.error.message;
       })
   } 
@@ -52,8 +52,8 @@ const chatSlice = createSlice({
 
 export const { 
   addNewMessage, 
-  handleConnectionError,
-  setSendingMessageStatus,
+  handleError,
+  setStatus,
 } = chatSlice.actions;
 
 export const selectStatus = (state) => state.status;
