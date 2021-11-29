@@ -1,6 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Col, Nav } from 'react-bootstrap';
 import cn from 'classnames';
+
+import { selectChannels, selectCurrentChannel } from '../store/channelsSlice';
 
 const renderChannels = (channels, currentChannelId) => {
   if (channels.length === 0) {
@@ -25,7 +28,9 @@ const renderChannels = (channels, currentChannelId) => {
   );
 };
 
-export default ({ channels, currentChannelId }) => {
+export default () => {
+  const channels = useSelector(selectChannels);
+  const currentChannel = useSelector(selectCurrentChannel);
   return (
     <Col className="col-4 border-end pt-5 px-0 bg-light" md="2" >
       <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
@@ -38,7 +43,7 @@ export default ({ channels, currentChannelId }) => {
           <span className="visually-hidden">+</span>
         </button>
       </div>
-      {renderChannels(channels, currentChannelId)}
+      {renderChannels(channels, currentChannel?.id)}
     </Col>
   );
 }
