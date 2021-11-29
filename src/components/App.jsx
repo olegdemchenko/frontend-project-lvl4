@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 
 import Header from './Header.jsx';
 import Login from './Login.jsx';
+import Socket from './Socket.jsx';
 import Chat from './Chat';
 import NotFound from './NotFound.jsx';
 import authContext from '../contexts/AuthContext';
@@ -42,7 +43,9 @@ export default () => {
         <Routes>
           <Route path="/" element={
             <RequireAuth>
-              <Chat />
+              <Socket>
+                <Chat />
+              </Socket>
             </RequireAuth>
           }/>
           <Route path="/login" element={<Login />}/>

@@ -22,14 +22,14 @@ import Messages from './Messages.jsx';
 
 export default () => {
   const dispatch = useDispatch();
-  const socket = useRef(null);
+  //const socket = useRef(null);
   useEffect(() => {
     //dispatch(fetchChannels());
     //dispatch(fetchMessages());
     dispatch(fetchInitData())
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     socket.current = io();
     socket.current.on('connect', () => {
       console.log('websocket has been connected!');
@@ -55,7 +55,7 @@ export default () => {
         setError(new Error('sending message error'));
       }
     });
-  };
+  };*/
 
   
   const chatStatus = useSelector(selectStatus);
@@ -75,7 +75,7 @@ export default () => {
         <Messages 
           username={username}
           chatStatus={chatStatus}
-          sendMessage={sendMessage} 
+          
           currentChannel={currentChannel} 
           currentMessages={currentMessages} 
         />

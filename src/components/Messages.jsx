@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Col, Form, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
+
+import SocketContext from '../contexts/SocketContext';
 
 export default ({ 
   currentChannel,
   currentMessages,
-  sendMessage,
   chatStatus,
   username 
 }) => {
+  const { sendMessage } = useContext(SocketContext);
   const formik = useFormik({
     initialValues: {
       message: ''
