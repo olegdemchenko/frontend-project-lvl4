@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { Col, Nav, Dropdown, ButtonGroup } from 'react-bootstrap';
-import cn from 'classnames';
+import { Col, Nav, Dropdown, Button, ButtonGroup } from 'react-bootstrap';
+//import cn from 'classnames';
 
 import SocketContext from '../contexts/SocketContext';
 import { selectChannels, selectCurrentChannel, selectStatus } from '../store/channelsSlice';
@@ -34,14 +34,14 @@ export default ({ selectChannel }) => {
 
   const renderButton = (id, name) => {
     return (
-      <button
-        className={cn("btn w-100 rounded-0 text-start", {
-          "btn-secondary": currentChannel?.id === id
-        })}
+      <Button
+        className="w-100 rounded-0 text-start text-truncate"
+        variant={getVariant(id)}
         onClick={() => selectChannel(id)}
       >
-        {`# ${name}`}
-      </button>
+        <span className="me-1">#</span>
+        {name}
+      </Button>
     );
   };
 
@@ -66,7 +66,7 @@ export default ({ selectChannel }) => {
       <Nav className="flex-column px-2" variant="pills" fill>
         {channels.map(({ id, name, removable }) => {
           return (
-            <Nav.Item key={id}>
+            <Nav.Item className="w-100" key={id}>
               {removable ? renderDropdown(id, name) : renderButton(id, name)}
             </Nav.Item>
           );
