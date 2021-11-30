@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Col, Nav } from 'react-bootstrap';
 import cn from 'classnames';
 
 import SocketContext from '../contexts/SocketContext';
-import { selectChannels, selectCurrentChannel } from '../store/channelsSlice';
+import { selectChannels, selectCurrentChannel, selectStatus } from '../store/channelsSlice';
 import selectModal from './modals';
 
 const renderModal = (modalInfo, hideModal) => {
@@ -16,12 +16,20 @@ const renderModal = (modalInfo, hideModal) => {
 };
 
 export default ({ selectChannel }) => {
-  const channels = useSelector(selectChannels);
-  const currentChannel = useSelector(selectCurrentChannel);
-  const { createChannel } = useContext(SocketContext);
   const [modalInfo, setModalInfo] = useState({ type: null, onSubmit: null, item: null });
   const openModal = (info) => setModalInfo(info);
   const closeModal = () => setModalInfo({ type: null, item: null });
+  const currentStatus = useSelector(selectStatus);
+  useEffect(() => {
+    if (currentStatus === 'sendingSuccess') {
+      setModalInfo({ type: null, onSubmit: null, item: null });
+    }
+  }, [currentStatus]);
+  
+  const channels = useSelector(selectChannels);
+  const currentChannel = useSelector(selectCurrentChannel);
+  const { createChannel } = useContext(SocketContext);
+  
 
   const renderChannels = () => {
     if (channels.length === 0) {

@@ -19,7 +19,6 @@ export default ({ onHide, handleSubmit }) => {
     }),
     onSubmit: ({ name }) => {
       handleSubmit({ name });
-      onHide();
     }
   });
   useEffect(() => {
