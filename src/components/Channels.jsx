@@ -38,7 +38,7 @@ export default ({ selectChannel }) => {
                 })}
                 onClick={() => selectChannel(id)}
               >
-              {name}
+              {`# ${name}`}
               </button>
             </Nav.Item>
           );
