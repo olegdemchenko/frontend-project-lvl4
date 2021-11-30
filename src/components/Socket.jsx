@@ -3,7 +3,9 @@ import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 
 import SocketContext from '../contexts/SocketContext';
-import { addMessage, setStatus } from '../store/messagesSlice';
+import { changeCurrentChannel } from '../store/chatSlice';
+import { addMessage, setStatus as setMessagesStatus } from '../store/messagesSlice';
+import { addChannel, setStatus as setChannelsStatus } from '../store/channelsSlice';
 
 export default ({ children }) => {
   const [error, setError] = useState(null);
@@ -22,28 +24,43 @@ export default ({ children }) => {
     socket.current.on('newMessage', (message) => {
       dispatch(addMessage(message));
     });
+    socket.current.on('newChannel', (channel) => {
+      dispatch(addChannel(channel));
+      dispatch(changeCurrentChannel(channel.id));
+    });
     return () => {
       socket.current.disconnect();
     };
   }, []);
 
   const sendMessage = (message) => {
-    dispatch(setStatus('sending'));
+    dispatch(setMessagesStatus('sending'));
     socket.current.emit('newMessage', message, ({ status }) => {
       if (status === 'ok') {
-        dispatch(setStatus('sendingSuccess'));
+        dispatch(setMessagesStatus('sendingSuccess'));
       } else {
         setError('sending message error');
       }
     });
   };
 
+  const createChannel = (channel) => {
+    dispatch(setChannelsStatus('sending'));
+    socket.current.emit('newChannel', channel, ({ status }) => {
+      if (status === 'ok') {
+        dispatch(setChannelsStatus('sendingSuccess'));
+      } else {
+        setError('sending message error');
+      }
+    });
+  }
+
   if (error) {
     return <Alert variant="danger">{`Error: ${error}`}</Alert>
   }
 
   return (
-    <SocketContext.Provider value={{ sendMessage }}>
+    <SocketContext.Provider value={{ sendMessage, createChannel }}>
       {children}
     </SocketContext.Provider>
   );
