@@ -27,6 +27,9 @@ const chatSlice = createSlice({
     currentChannelId: null,
   },
   reducers: {
+    changeCurrentChannel(state, action) {
+      state.currentChannelId = action.payload;
+    },
     setStatus(state, action) {
       state.status = action.payload;
     },
@@ -53,7 +56,7 @@ const chatSlice = createSlice({
 
 export default chatSlice.reducer;
 
-export const { setStatus, setError } = chatSlice.actions;
+export const { setStatus, setError, changeCurrentChannel } = chatSlice.actions;
 
 export const selectCurrentChannelId = state => state.chat.currentChannelId;
 

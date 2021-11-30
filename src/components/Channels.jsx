@@ -5,32 +5,34 @@ import cn from 'classnames';
 
 import { selectChannels, selectCurrentChannel } from '../store/channelsSlice';
 
-const renderChannels = (channels, currentChannelId) => {
-  if (channels.length === 0) {
-    return null;
-  }
-  return (
-    <Nav className="flex-column px-2" variant="pills" fill>
-      {channels.map(({ id, name }) => {
-        return (
-          <Nav.Item key={id}>
-            <button
-              className={cn("btn w-100 rounded-0 text-start", {
-                "btn-secondary": currentChannelId === id
-              })}
-            >
-            {name}
-            </button>
-          </Nav.Item>
-        );
-      })}
-    </Nav>
-  );
-};
-
-export default () => {
+export default ({ selectChannel }) => {
   const channels = useSelector(selectChannels);
   const currentChannel = useSelector(selectCurrentChannel);
+
+  const renderChannels = () => {
+    if (channels.length === 0) {
+      return null;
+    }
+    return (
+      <Nav className="flex-column px-2" variant="pills" fill>
+        {channels.map(({ id, name }) => {
+          return (
+            <Nav.Item key={id}>
+              <button
+                className={cn("btn w-100 rounded-0 text-start", {
+                  "btn-secondary": currentChannel?.id === id
+                })}
+                onClick={() => selectChannel(id)}
+              >
+              {name}
+              </button>
+            </Nav.Item>
+          );
+        })}
+      </Nav>
+    );
+  };
+
   return (
     <Col className="col-4 border-end pt-5 px-0 bg-light" md="2" >
       <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
@@ -43,7 +45,7 @@ export default () => {
           <span className="visually-hidden">+</span>
         </button>
       </div>
-      {renderChannels(channels, currentChannel?.id)}
+      {renderChannels()}
     </Col>
   );
 }
