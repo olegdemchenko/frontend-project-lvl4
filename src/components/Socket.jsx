@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 
 import SocketContext from '../contexts/SocketContext';
-import { addMessage } from '../store/messagesSlice';
+import { addMessage, setStatus } from '../store/messagesSlice';
 
 export default ({ children }) => {
   const [error, setError] = useState(null);
@@ -28,8 +28,11 @@ export default ({ children }) => {
   }, []);
 
   const sendMessage = (message) => {
+    dispatch(setStatus('sending'));
     socket.current.emit('newMessage', message, ({ status }) => {
-      if (status !== 'ok') {
+      if (status === 'ok') {
+        dispatch(setStatus('sendingSuccess'));
+      } else {
         setError('sending message error');
       }
     });
