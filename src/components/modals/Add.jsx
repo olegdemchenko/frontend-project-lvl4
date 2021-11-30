@@ -1,15 +1,16 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
-import { selectChannelsNames, selectStatus } from '../../store/channelsSlice';
+import { selectChannelsNames } from '../../store/channelsSlice';
 
 export default ({ onHide, handleSubmit }) => {
+  const [status, setStatus] = useState('filling');
   const inputRef = useRef();
   const existingChannels = useSelector(selectChannelsNames);
-  const chatStatus = useSelector(selectStatus);
+ 
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -19,6 +20,7 @@ export default ({ onHide, handleSubmit }) => {
     }),
     onSubmit: ({ name }) => {
       handleSubmit({ name });
+      setStatus('sending');
     }
   });
   useEffect(() => {
@@ -40,7 +42,7 @@ export default ({ onHide, handleSubmit }) => {
               onChange={formik.handleChange}
               value={formik.values.name}
               isInvalid={formik.errors.name}
-              disabled={chatStatus === 'addingChannel'}
+              disabled={status === 'sending'}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.name}
@@ -50,7 +52,7 @@ export default ({ onHide, handleSubmit }) => {
               <Button 
                 variant="primary" 
                 type="submit"
-                disabled={chatStatus === 'addingChannel'}
+                disabled={status === 'sending'}
               >Add</Button>
             </div>
           </Form.Group>
