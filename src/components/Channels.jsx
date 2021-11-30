@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { Col, Nav } from 'react-bootstrap';
+import { Col, Nav, Dropdown, ButtonGroup } from 'react-bootstrap';
 import cn from 'classnames';
 
 import SocketContext from '../contexts/SocketContext';
@@ -30,6 +30,33 @@ export default ({ selectChannel }) => {
   const currentChannel = useSelector(selectCurrentChannel);
   const { createChannel } = useContext(SocketContext);
   
+  const getVariant = (id) => currentChannel?.id === id ? "secondary" : "";
+
+  const renderButton = (id, name) => {
+    return (
+      <button
+        className={cn("btn w-100 rounded-0 text-start", {
+          "btn-secondary": currentChannel?.id === id
+        })}
+        onClick={() => selectChannel(id)}
+      >
+        {`# ${name}`}
+      </button>
+    );
+  };
+
+  const renderDropdown = (id, name) => {
+    return (
+      <Dropdown className="d-flex" as={ButtonGroup} variant={getVariant(id)}>
+        {renderButton(id, name)}
+        <Dropdown.Toggle variant={getVariant(id)} split aria-haspopup/>
+        <Dropdown.Menu>
+          <Dropdown.Item href="#">Delete</Dropdown.Item>
+          <Dropdown.Item href="#">Rename</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
 
   const renderChannels = () => {
     if (channels.length === 0) {
@@ -37,17 +64,10 @@ export default ({ selectChannel }) => {
     }
     return (
       <Nav className="flex-column px-2" variant="pills" fill>
-        {channels.map(({ id, name }) => {
+        {channels.map(({ id, name, removable }) => {
           return (
             <Nav.Item key={id}>
-              <button
-                className={cn("btn w-100 rounded-0 text-start", {
-                  "btn-secondary": currentChannel?.id === id
-                })}
-                onClick={() => selectChannel(id)}
-              >
-              {`# ${name}`}
-              </button>
+              {removable ? renderDropdown(id, name) : renderButton(id, name)}
             </Nav.Item>
           );
         })}
