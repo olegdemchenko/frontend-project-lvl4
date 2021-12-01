@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 import SocketContext from '../contexts/SocketContext';
 import { changeCurrentChannel } from '../store/chatSlice';
 import { addMessage, setStatus as setMessagesStatus } from '../store/messagesSlice';
-import { addChannel, setStatus as setChannelsStatus } from '../store/channelsSlice';
+import { addChannel, setStatus as setChannelsStatus, renameChannel } from '../store/channelsSlice';
 
 export default ({ children }) => {
   const [error, setError] = useState(null);
@@ -27,6 +27,9 @@ export default ({ children }) => {
     socket.current.on('newChannel', (channel) => {
       dispatch(addChannel(channel));
       dispatch(changeCurrentChannel(channel.id));
+    });
+    socket.current.on('renameChannel', (channel) => {
+      dispatch(renameChannel(channel));
     });
     return () => {
       socket.current.disconnect();
@@ -53,14 +56,25 @@ export default ({ children }) => {
         setError('sending message error');
       }
     });
-  }
+  };
+
+  const changeChannelName = (channelData) => {
+    dispatch(setChannelsStatus('sending'));
+    socket.current.emit('renameChannel', channelData, ({ status }) => {
+      if (status === 'ok') {
+        dispatch(setChannelsStatus('sendingSuccess'));
+      } else {
+        setError('sending message error');
+      }
+    });
+  };
 
   if (error) {
     return <Alert variant="danger">{`Error: ${error}`}</Alert>
   }
 
   return (
-    <SocketContext.Provider value={{ sendMessage, createChannel }}>
+    <SocketContext.Provider value={{ sendMessage, createChannel, changeChannelName }}>
       {children}
     </SocketContext.Provider>
   );

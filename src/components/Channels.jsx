@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Col, Nav, Dropdown, Button, ButtonGroup } from 'react-bootstrap';
-//import cn from 'classnames';
 
 import SocketContext from '../contexts/SocketContext';
 import { selectChannels, selectCurrentChannel, selectStatus } from '../store/channelsSlice';
@@ -12,7 +11,7 @@ const renderModal = (modalInfo, hideModal) => {
     return null;
   }
   const Component = selectModal(modalInfo.type);
-  return <Component onHide={hideModal} handleSubmit={modalInfo.onSubmit}/>
+  return <Component onHide={hideModal} handleSubmit={modalInfo.onSubmit}  item={modalInfo.item}/>
 };
 
 export default ({ selectChannel }) => {
@@ -28,7 +27,7 @@ export default ({ selectChannel }) => {
   
   const channels = useSelector(selectChannels);
   const currentChannel = useSelector(selectCurrentChannel);
-  const { createChannel } = useContext(SocketContext);
+  const { createChannel, changeChannelName } = useContext(SocketContext);
   
   const getVariant = (id) => currentChannel?.id === id ? "secondary" : "";
 
@@ -52,7 +51,7 @@ export default ({ selectChannel }) => {
         <Dropdown.Toggle variant={getVariant(id)} split aria-haspopup/>
         <Dropdown.Menu>
           <Dropdown.Item href="#">Delete</Dropdown.Item>
-          <Dropdown.Item href="#">Rename</Dropdown.Item>
+          <Dropdown.Item href="#" onClick={() => openModal({ type: 'rename', onSubmit: changeChannelName, item: id }) }>Rename</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
