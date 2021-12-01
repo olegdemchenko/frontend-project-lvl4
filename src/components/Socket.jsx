@@ -3,9 +3,21 @@ import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 
 import SocketContext from '../contexts/SocketContext';
-import { changeCurrentChannel } from '../store/chatSlice';
-import { addMessage, setStatus as setMessagesStatus } from '../store/messagesSlice';
-import { addChannel, setStatus as setChannelsStatus, renameChannel } from '../store/channelsSlice';
+import { 
+  changeCurrentChannel, 
+  selectDefaultChannel
+} from '../store/chatSlice';
+import { 
+  addMessage, 
+  setStatus as setMessagesStatus,
+  deleteChannelMessages,
+} from '../store/messagesSlice';
+import { 
+  addChannel, 
+  setStatus as setChannelsStatus, 
+  renameChannel,
+  deleteChannel,
+ } from '../store/channelsSlice';
 
 export default ({ children }) => {
   const [error, setError] = useState(null);
@@ -30,6 +42,11 @@ export default ({ children }) => {
     });
     socket.current.on('renameChannel', (channel) => {
       dispatch(renameChannel(channel));
+    });
+    socket.current.on('removeChannel', (channel) => {
+      dispatch(deleteChannel(channel));
+      dispatch(deleteChannelMessages(channel));
+      dispatch(selectDefaultChannel())
     });
     return () => {
       socket.current.disconnect();
@@ -69,12 +86,28 @@ export default ({ children }) => {
     });
   };
 
+  const removeChannel = (channel) => {
+    dispatch(setChannelsStatus('sending'));
+    socket.current.emit('removeChannel', channel, ({ status }) => {
+      if (status === 'ok') {
+        dispatch(setChannelsStatus('sendingSuccess'));
+      } else {
+        setError('sending message error');
+      }
+    });
+  };
+
   if (error) {
     return <Alert variant="danger">{`Error: ${error}`}</Alert>
   }
 
   return (
-    <SocketContext.Provider value={{ sendMessage, createChannel, changeChannelName }}>
+    <SocketContext.Provider value={{ 
+      sendMessage, 
+      createChannel, 
+      changeChannelName,
+      removeChannel,
+      }}>
       {children}
     </SocketContext.Provider>
   );

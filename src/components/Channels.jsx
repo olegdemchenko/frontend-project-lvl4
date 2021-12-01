@@ -27,7 +27,11 @@ export default ({ selectChannel }) => {
   
   const channels = useSelector(selectChannels);
   const currentChannel = useSelector(selectCurrentChannel);
-  const { createChannel, changeChannelName } = useContext(SocketContext);
+  const { 
+    createChannel,
+    changeChannelName,
+    removeChannel,
+  } = useContext(SocketContext);
   
   const getVariant = (id) => currentChannel?.id === id ? "secondary" : "";
 
@@ -50,7 +54,7 @@ export default ({ selectChannel }) => {
         {renderButton(id, name)}
         <Dropdown.Toggle variant={getVariant(id)} split aria-haspopup/>
         <Dropdown.Menu>
-          <Dropdown.Item href="#">Delete</Dropdown.Item>
+          <Dropdown.Item href="#" onClick={() => openModal({ type: 'remove', onSubmit: removeChannel, item: id })}>Delete</Dropdown.Item>
           <Dropdown.Item href="#" onClick={() => openModal({ type: 'rename', onSubmit: changeChannelName, item: id }) }>Rename</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>

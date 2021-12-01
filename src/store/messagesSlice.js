@@ -16,6 +16,12 @@ const messagesSlice = createSlice({
     reducers: {
       addMessages: messagesAdapter.addMany,
       addMessage: messagesAdapter.addOne,
+      deleteChannelMessages: (state, action) => {
+        const channelMessagesIds = Object.values(state.entities)
+          .filter(({ channelId }) => channelId === action.payload.id)
+          .map(({ id }) => id);
+        messagesAdapter.removeMany(state, channelMessagesIds);
+      },
       setStatus: (state, action) => {
         state.status = action.payload;
       }
@@ -24,7 +30,12 @@ const messagesSlice = createSlice({
 
   export default messagesSlice.reducer;
 
-  export const { addMessage, addMessages, setStatus } = messagesSlice.actions;
+  export const { 
+    addMessage,
+    addMessages, 
+    setStatus,
+    deleteChannelMessages, 
+  } = messagesSlice.actions;
 
   export const { selectAll: selectMessages, selectById: selectMessageById } =
     messagesAdapter.getSelectors(state => state.messages);
