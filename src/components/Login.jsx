@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Image, Button, Form, FloatingLabel } from 'react-bootstrap';
-import * as Yup from 'yup';
 
 import routes from '../routes';
 import useAuth from '../hooks/index.jsx';
@@ -25,16 +24,6 @@ export default () =>  {
       username: '',
       password: ''
     },
-    /* TODO Move this validation to registration process
-      validationSchema: Yup.object({
-        login: Yup.string().min(4, 'Login should contain at least 4 characters').required(),
-        password: Yup.string().min(8, 'Password should contain at least 8 characters')
-        .matches(/\S/,'Password shouldn\'t contain whitespaces' )
-        .matches(/[A-Z]+/, 'Password should contain capital letters')
-        .matches(/[0-9]+/, 'Password should contain digits')
-        .matches(/[!_&^*()#@]+/, 'Password should contain special characters')
-        .required()
-    })*/
     onSubmit: async ({ username, password }) => {
       try {
         const { data } = await axios.post(routes.loginPath(), { username, password });                   

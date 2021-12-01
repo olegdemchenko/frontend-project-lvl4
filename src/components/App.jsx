@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 
 import Header from './Header.jsx';
 import Login from './Login.jsx';
+import Signup from './Registration.jsx';
 import Socket from './Socket.jsx';
 import Chat from './Chat';
 import NotFound from './NotFound.jsx';
@@ -49,6 +50,7 @@ export default () => {
             </RequireAuth>
           }/>
           <Route path="/login" element={<Login />}/>
+          <Route path="/signup" element={<Signup />}/>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
