@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 import SocketContext from '../contexts/SocketContext';
 import { 
   changeCurrentChannel, 
-  selectDefaultChannel
+  selectDefaultChannel,
+  setStatus as setChatStatus,
 } from '../store/chatSlice';
 import { 
   addMessage, 
@@ -40,14 +41,17 @@ export default ({ children }) => {
     socket.current.on('newChannel', (channel) => {
       dispatch(addChannel(channel));
       dispatch(changeCurrentChannel(channel.id));
+      dispatch(setChatStatus('addChannelSuccess'));
     });
     socket.current.on('renameChannel', (channel) => {
       dispatch(renameChannel(channel));
+      dispatch(setChatStatus('renameChannelSuccess'));
     });
     socket.current.on('removeChannel', (channel) => {
       dispatch(deleteChannel(channel));
       dispatch(deleteChannelMessages(channel));
       dispatch(selectDefaultChannel())
+      dispatch(setChatStatus('removeChannelSuccess'));
     });
     return () => {
       socket.current.disconnect();
@@ -60,7 +64,7 @@ export default ({ children }) => {
       if (status === 'ok') {
         dispatch(setMessagesStatus('sendingSuccess'));
       } else {
-        setError(t('socket.errors.sendMessageErr'));
+        setChatStatus('sendMessageError');
       }
     });
   };
@@ -71,7 +75,7 @@ export default ({ children }) => {
       if (status === 'ok') {
         dispatch(setChannelsStatus('sendingSuccess'));
       } else {
-        setError(t('socket.errors.createChannelErr'));
+        setChatStatus('createChannelError');
       }
     });
   };
@@ -82,7 +86,7 @@ export default ({ children }) => {
       if (status === 'ok') {
         dispatch(setChannelsStatus('sendingSuccess'));
       } else {
-        setError(t('socket.errors.renameChannelErr'));
+        setChatStatus('renameChannelError');
       }
     });
   };
@@ -93,7 +97,7 @@ export default ({ children }) => {
       if (status === 'ok') {
         dispatch(setChannelsStatus('sendingSuccess'));
       } else {
-        setError(t('socket.errors.removeChannelErr'));
+        setChatStatus('removeChannelError');
       }
     });
   };

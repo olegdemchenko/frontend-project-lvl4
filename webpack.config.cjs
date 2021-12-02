@@ -42,6 +42,13 @@ module.exports = {
         type: 'asset/resource',
       },
       {
+        test: /\.css$/i,
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          { loader: 'css-loader' },
+        ],
+      },
+      {
         test: /\.s[ac]ss$/i,
         use: [
           { loader: MiniCssExtractPlugin.loader },

@@ -21,15 +21,18 @@ export default {
     socket: {
       errors: {
         connectionErr: "Websocket connection error",
-        sendMessageErr: "An error has occured during sending the message",
-        createChannelErr: "An error has occured during adding a new channel",
-        renameChannelErr: "An error has occured during renaming the channel",
-        removeChannelErr: "An error has occured during removing the channel",
       }
     },
     chat: {
+      addChannelSuccess: "Channel is created",
+      renameChannelSuccess: "Channel is renamed",
+      removeChannelSuccess: "Channel is removed",
       errors: {
         fetchDataFailed: "Oops! Something went wrong. Please try again later",
+        addChannelError: "Error occured during creating a new channel",
+        renameChannelError: "Error occured during renaming the channel",
+        removeChannelError: "Error occured during removing the channel",
+        sendMessageError: "Error occured during sending a message"
       }
     },
     channels: {

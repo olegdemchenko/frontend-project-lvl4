@@ -24,15 +24,18 @@ export default {
     socket: {
       errors: {
         connectionErr: "Ошибка соединения websocket",
-        sendMessageErr: "Произошла ошибка во время отправки сообщения",
-        createChannelErr: "Произошла ошибка во время создания нового канала",
-        renameChannelErr: "Произошла ошибка во время переименования канала",
-        removeChannelErr: "Произошла ошибка во время удаления канала",
       }
     },
     chat: {
+      addChannelSuccess: "Канал добавлен",
+      renameChannelSuccess: "Канал переименован",
+      removeChannelSuccess: "Канал удален",
       errors: {
-        fetchDataFailed: "Упс! Что-то пошло не так. Пожалуйста, попробуйте позже."
+        fetchDataFailed: "Упс! Что-то пошло не так. Пожалуйста, попробуйте позже.",
+        addChannelError: "Произошла ошибка при создании нового канала",
+        renameChannelError: "Произошла ошибка при переименовании канала",
+        removeChannelError: "Произошла ошибка при удалении канала",
+        sendMessageError: "Произошла ошибка при отправке сообщения",
       }
     },
     channels: {
