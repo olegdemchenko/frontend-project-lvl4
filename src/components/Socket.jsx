@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
+import { useTranslation } from 'react-i18next';
 
 import SocketContext from '../contexts/SocketContext';
 import { 
@@ -23,7 +24,7 @@ export default ({ children }) => {
   const [error, setError] = useState(null);
   const socket = useRef(null);
   const dispatch = useDispatch();
-
+  const { t } = useTranslation();
   useEffect(() => {
     socket.current = io();
     socket.current.on('connect', () => {
@@ -31,7 +32,7 @@ export default ({ children }) => {
     });
     socket.current.on('connect_error', () => {
       console.log('connection error');
-      setError('Websocket connection error');
+      setError(t('socket.errors.connectionErr'));
     });
     socket.current.on('newMessage', (message) => {
       dispatch(addMessage(message));
@@ -59,7 +60,7 @@ export default ({ children }) => {
       if (status === 'ok') {
         dispatch(setMessagesStatus('sendingSuccess'));
       } else {
-        setError('sending message error');
+        setError(t('socket.errors.sendMessageErr'));
       }
     });
   };
@@ -70,7 +71,7 @@ export default ({ children }) => {
       if (status === 'ok') {
         dispatch(setChannelsStatus('sendingSuccess'));
       } else {
-        setError('sending message error');
+        setError(t('socket.errors.createChannelErr'));
       }
     });
   };
@@ -81,7 +82,7 @@ export default ({ children }) => {
       if (status === 'ok') {
         dispatch(setChannelsStatus('sendingSuccess'));
       } else {
-        setError('sending message error');
+        setError(t('socket.errors.renameChannelErr'));
       }
     });
   };
@@ -92,7 +93,7 @@ export default ({ children }) => {
       if (status === 'ok') {
         dispatch(setChannelsStatus('sendingSuccess'));
       } else {
-        setError('sending message error');
+        setError(t('socket.errors.removeChannelErr'));
       }
     });
   };

@@ -2,11 +2,11 @@ import React, { useRef, useEffect, useContext } from 'react';
 import { Col, Form, InputGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import SocketContext from '../contexts/SocketContext';
 import { selectCurrentMessages, selectStatus } from '../store/messagesSlice';
 import { selectCurrentChannel } from '../store/channelsSlice';
-
 
 export default () => {
   const status = useSelector(selectStatus);
@@ -15,7 +15,7 @@ export default () => {
   const { sendMessage } = useContext(SocketContext);
   const { username } = JSON.parse(localStorage.getItem('userId')); 
   const inputRef = useRef();
-
+  const { t } = useTranslation();
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -35,7 +35,7 @@ export default () => {
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0"><b>{`# ${(currentChannel?.name ?? '')}`}</b></p>
           <span className="text-muted">
-            {currentMessages.length === 1 ? '1 message' : `${currentMessages.length} messages`}
+            {t('messages.count', { count: currentMessages.length })}
           </span>
         </div>
         <div className="chat-messages overflow-auto px-5" id="messages-box">
@@ -55,7 +55,7 @@ export default () => {
                 ref={inputRef}
                 className="border-0 p-0 ps-2 form-control"
                 type="text"
-                placeholder="Enter a message..."
+                placeholder={t('messages.enterMessage')}
                 name="message"
                 aria-label="New message"
                 value={formik.values.message}

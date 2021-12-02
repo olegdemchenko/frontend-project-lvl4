@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Image, Button, Form, FloatingLabel } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import routes from '../routes';
 import useAuth from '../hooks/index.jsx';
@@ -14,7 +15,8 @@ export default () =>  {
   const usernameRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
-  
+  const { t } = useTranslation();
+
   useEffect(() => {
     usernameRef.current.focus();
   }, []);
@@ -51,25 +53,40 @@ export default () =>  {
                 <Image roundedCircle alt="Enter" src={logo} />
               </Col>
               <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
-                <h1 className="text-center mb-4">Enter</h1>
+                <h1 className="text-center mb-4">{t('login.enter')}</h1>
                 <Form.Group className="mb-3" controlId="username">
-                  <FloatingLabel label="Your nickname">
-                    <Form.Control ref={usernameRef} onChange={formik.handleChange} isInvalid={authFailed} name="username" id="username" placeholder="Your nickname" required />
+                  <FloatingLabel label={t('common.nickname')}>
+                    <Form.Control 
+                      ref={usernameRef} 
+                      onChange={formik.handleChange} 
+                      isInvalid={authFailed} 
+                      name="username" 
+                      id="username" 
+                      placeholder={t('common.nickname')} 
+                      required 
+                    />
                   </FloatingLabel>
                 </Form.Group>
                 <Form.Group className="mb-4" controlId="password">
-                  <FloatingLabel label="Your password">
-                    <Form.Control name="password" onChange={formik.handleChange} isInvalid={authFailed} id="password" placeholder="Your password" required />
-                    <Form.Control.Feedback tooltip type="invalid">Wrong username or password</Form.Control.Feedback>
+                  <FloatingLabel label={t('common.password')}>
+                    <Form.Control 
+                      name="password" 
+                      onChange={formik.handleChange} 
+                      isInvalid={authFailed} 
+                      id="password" 
+                      placeholder={t('common.password')} 
+                      required
+                    />
+                    <Form.Control.Feedback tooltip type="invalid">{t('login.errors.wrongCredentials')}</Form.Control.Feedback>
                   </FloatingLabel>
                 </Form.Group>
-                <Button type="submit" variant="outline-primary" className="w-100 mb-3">Enter</Button>
+                <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('login.enter')}</Button>
               </Form>
             </Card.Body>
             <Card.Footer className="p-4">
               <div className="text-center">
-                <span>Don't have an account?</span>
-                <Link to="/signup">Registration</Link>
+                <span>{t('login.noAccount')}</span>
+                <Link to="/signup">{t('registration.registration')}</Link>
               </div>
             </Card.Footer>
           </Card>

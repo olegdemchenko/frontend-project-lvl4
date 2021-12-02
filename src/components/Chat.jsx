@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Alert } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchInitData, selectStatus, changeCurrentChannel } from '../store/chatSlice';
@@ -13,9 +14,10 @@ export default () => {
     dispatch(fetchInitData())
   }, []);
   
+  const { t } = useTranslation();
   const chatStatus = useSelector(selectStatus);
   if (chatStatus.includes('error')) {
-    return <Alert variant="danger">Oops! Something went wrong. Please try again later</Alert>
+    return <Alert variant="danger">{t("chat.errors.fetchDataFailed")}</Alert>
   }
 
   const selectChannel = (channelId) => {

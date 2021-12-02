@@ -3,6 +3,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 import { selectChannelsNames, selectChannelById } from '../../store/channelsSlice';
 
@@ -11,12 +12,15 @@ export default ({ onHide, handleSubmit, item }) => {
   const inputRef = useRef();
   const existingChannels = useSelector(selectChannelsNames);
   const selectedChannel = useSelector((state) => selectChannelById(state, item));
+  const { t } = useTranslation();
   const formik = useFormik({
     initialValues: {
       name: selectedChannel.name,
     },
     validationSchema: Yup.object({
-      name: Yup.string().required().notOneOf(existingChannels)
+      name: Yup.string()
+        .required(t('common.errors.required'))
+        .notOneOf(existingChannels, t('modals.common.errors.unique'))
     }),
     onSubmit: ({ name }) => {
       handleSubmit({ name, id: selectedChannel.id });
@@ -29,7 +33,7 @@ export default ({ onHide, handleSubmit, item }) => {
   return (
     <Modal show centered onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Rename channel</Modal.Title>
+        <Modal.Title>{t('modals.rename.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
@@ -48,12 +52,17 @@ export default ({ onHide, handleSubmit, item }) => {
               {formik.errors.name}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-              <Button variant="secondary" type="button" className="me-2" onClick={onHide}>Cancel</Button>
+              <Button 
+                variant="secondary"
+                type="button" 
+                className="me-2" 
+                onClick={onHide}
+              >{t('modals.common.cancel')}</Button>
               <Button 
                 variant="primary" 
                 type="submit"
                 disabled={status === 'sending'}
-              >Send</Button>
+              >{t('modals.common.send')}</Button>
             </div>
           </Form.Group>
         </Form>

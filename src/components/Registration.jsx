@@ -4,6 +4,7 @@ import { Container, Row, Col, Card, Image, Button, Form, FloatingLabel } from 'r
 import axios from 'axios';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import useAuth from '../hooks/index.jsx';
 import logo from '../../assets/img/signupIcon.jpg';
@@ -14,6 +15,7 @@ export default () => {
   const [isRegistrationFailed, setRegistrationFailed] = useState(false);
   const usernameRef = useRef();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   useEffect(() => {
     usernameRef.current.focus();
   }, []);
@@ -24,11 +26,18 @@ export default () => {
       passwordConfirm:''
     },
     validationSchema: Yup.object({
-      username: Yup.string().required().trim().min(3).max(20),
-      password: Yup.string().required().trim().min(6),
-      passwordConfirm: Yup.string().required().when("password", {
+      username: Yup.string()
+        .required(t('common.errors.required'))
+        .trim()
+        .min(3, t('registration.errors.incorrectNameLength'))
+        .max(20, t('registration.errors.incorrectNameLength')),
+      password: Yup.string()
+        .required(t('common.errors.required'))
+        .trim()
+        .min(6, t('regisrtation.errors.incorrectPasswordLength')),
+      passwordConfirm: Yup.string().required(t('common.errors.required')).when("password", {
         is: val => val,
-        then: Yup.string().oneOf([Yup.ref("password")], "Passwords must be equal")
+        then: Yup.string().oneOf([Yup.ref("password")], t('registration.errors.passwordsNotEqual'))
       })
     }),
     onSubmit: async ({ username, password }) => {
@@ -49,7 +58,7 @@ export default () => {
   
   useEffect(() => {
     if (isRegistrationFailed) {
-      formik.setErrors({ username: 'User with such username already exists' })
+      formik.setErrors({ username: t('registration.errors.duplicatedUsername') });
     }
   }, [isRegistrationFailed]);
 
@@ -63,9 +72,9 @@ export default () => {
                 <Image roundedCircle alt="Enter" src={logo} />
               </Col>
               <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
-                <h1 className="text-center mb-4">Registration</h1>
+                <h1 className="text-center mb-4">{t('registration.registration')}</h1>
                 <Form.Group className="mb-3" controlId="username">
-                  <FloatingLabel label="Your nickname">
+                  <FloatingLabel label={t('common.nickname')}>
                     <Form.Control
                       ref={usernameRef}
                       value={formik.values.username} 
@@ -74,13 +83,13 @@ export default () => {
                       isInvalid={formik.touched.username && formik.errors.username}
                       name="username" 
                       id="username" 
-                      placeholder="Your nickname" 
+                      placeholder={t('common.nickname')} 
                     />
                     <Form.Control.Feedback tooltip type="invalid">{formik.errors.username}</Form.Control.Feedback>
                   </FloatingLabel>
                 </Form.Group>
                 <Form.Group className="mb-4" controlId="password">
-                  <FloatingLabel label="Your password">
+                  <FloatingLabel label={t('common.password')}>
                     <Form.Control 
                       name="password" 
                       type="password"
@@ -89,13 +98,13 @@ export default () => {
                       onBlur={formik.handleBlur}
                       isInvalid={formik.touched.password && formik.errors.password}
                       id="password" 
-                      placeholder="Your password"  
+                      placeholder={t('common.password')}  
                     />
                     <Form.Control.Feedback tooltip type="invalid">{formik.errors.password}</Form.Control.Feedback>
                   </FloatingLabel>
                 </Form.Group>
                 <Form.Group className="mb-4" controlId="passwordConfirm">
-                  <FloatingLabel label="Confirm password">
+                  <FloatingLabel label={t('registration.passwordConfirm')}>
                     <Form.Control 
                       name="passwordConfirm" 
                       type="password"
@@ -104,12 +113,16 @@ export default () => {
                       onBlur={formik.handleBlur}
                       isInvalid={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
                       id="passwordConfirm" 
-                      placeholder="Confirm password" 
+                      placeholder={t('registration.passwordConfirm')} 
                     />
                     <Form.Control.Feedback tooltip type="invalid">{formik.errors.passwordConfirm}</Form.Control.Feedback>
                   </FloatingLabel>
                 </Form.Group>
-                <Button type="submit" variant="outline-primary" className="w-100 mb-3">Register me</Button>
+                <Button 
+                  type="submit" 
+                  variant="outline-primary" 
+                  className="w-100 mb-3"
+                >{t('registration.registerMe')}</Button>
               </Form>
             </Card.Body>
           </Card>
