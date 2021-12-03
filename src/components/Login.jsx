@@ -70,6 +70,7 @@ export default () =>  {
                 <Form.Group className="mb-4" controlId="password">
                   <FloatingLabel label={t('common.password')}>
                     <Form.Control 
+                      type="password"
                       name="password" 
                       onChange={formik.handleChange} 
                       isInvalid={authFailed} 
