@@ -74,6 +74,7 @@ export default {
       passwordConfirm: "Confirm password",
       registerMe: "Register me",
       errors: {
+        confirm: "Confirm password",
         passwordsNotEqual: "Passwords must be equal",
         incorrectNameLength: "Name length must be from 3 to 20 symbols",
         incorrectPasswordLength: "Password length must be no less than 6 symbols",

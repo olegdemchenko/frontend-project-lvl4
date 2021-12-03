@@ -77,6 +77,7 @@ export default {
       passwordConfirm: "Подтвердите пароль",
       registerMe: "Зарегистрироваться",
       errors: {
+        confirm: "Подтвердите пароль",
         passwordsNotEqual: "Пароли должны быть одинаковы",
         incorrectNameLength: "От 3 до 20 символов",
         incorrectPasswordLength: "Не менее 6 символов",
