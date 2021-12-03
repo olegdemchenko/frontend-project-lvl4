@@ -54,6 +54,7 @@ export default {
         errors: {
           required: "Required field",
           unique: "Must be unique",
+          badLanguage: "You mustn't use profanity"
         }
       },
       add: {

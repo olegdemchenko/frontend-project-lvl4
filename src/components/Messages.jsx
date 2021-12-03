@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import SocketContext from '../contexts/SocketContext';
+import DictionaryFilterContext from '../contexts/DictionaryFilterContext';
 import { selectCurrentMessages, selectStatus } from '../store/messagesSlice';
 import { selectCurrentChannel } from '../store/channelsSlice';
 
@@ -16,6 +17,7 @@ export default () => {
   const { username } = JSON.parse(localStorage.getItem('userId')); 
   const inputRef = useRef();
   const { t } = useTranslation();
+  const { filter } = useContext(DictionaryFilterContext);
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -25,7 +27,7 @@ export default () => {
       message: ''
     },
     onSubmit: ({ message }, { resetForm }) => {
-      sendMessage({ channelId: currentChannel.id, username, message });
+      sendMessage({ channelId: currentChannel.id, username, message: filter.clean(message) });
       resetForm({ message: '' });
     }
   });

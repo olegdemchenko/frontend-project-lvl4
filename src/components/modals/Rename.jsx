@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 
 import { selectChannelsNames, selectChannelById } from '../../store/channelsSlice';
+import DictionaryFilterContext from '../../contexts/DictionaryFilterContext';
 
 export default ({ onHide, handleSubmit, item }) => {
   const [status, setStatus] = useState('filling');
@@ -13,6 +14,7 @@ export default ({ onHide, handleSubmit, item }) => {
   const existingChannels = useSelector(selectChannelsNames);
   const selectedChannel = useSelector((state) => selectChannelById(state, item));
   const { t } = useTranslation();
+  const { filter } = useContext(DictionaryFilterContext);
   const formik = useFormik({
     initialValues: {
       name: selectedChannel.name,
@@ -21,6 +23,11 @@ export default ({ onHide, handleSubmit, item }) => {
       name: Yup.string()
         .required(t('common.errors.required'))
         .notOneOf(existingChannels, t('modals.common.errors.unique'))
+        .test(
+          'profanity-test',
+          t('modals.common.errors.badLanguage'),
+          (value) => !filter.check(value)
+        ),
     }),
     onSubmit: ({ name }) => {
       handleSubmit({ name, id: selectedChannel.id });

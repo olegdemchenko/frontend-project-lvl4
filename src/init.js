@@ -7,18 +7,22 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import filter from 'leo-profanity';
 
 import store from './store/store.js';
 import App from './components/App.jsx';
 import resources from './locales';
+import DictionaryFilterContext from './contexts/DictionaryFilterContext.js';
 import '../assets/application.scss';
+
+const currentLang = 'ru';
 
 export default async () => {
   await i18n
     .use(initReactI18next)
     .init({
       resources,
-      lng: "ru",
+      lng: currentLang,
       fallbackLng: "en",
     });
   
@@ -37,10 +41,18 @@ export default async () => {
 
   normalizeMainPageLayout();
 
+  const Filter = ({ children }) => {
+    filter.loadDictionary(currentLang);
+    return <DictionaryFilterContext.Provider value={{ filter }}>
+      {children}
+    </DictionaryFilterContext.Provider>
+  };
+
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <Filter>
+        <App />
+      </Filter>
     </Provider>,
     document.getElementById('chat').firstElementChild);
-
 };

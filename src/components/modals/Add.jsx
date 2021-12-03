@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -6,13 +6,14 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 
 import { selectChannelsNames } from '../../store/channelsSlice';
+import DictionaryFilterContext from '../../contexts/DictionaryFilterContext';
 
 export default ({ onHide, handleSubmit }) => {
   const [status, setStatus] = useState('filling');
   const inputRef = useRef();
   const existingChannels = useSelector(selectChannelsNames);
   const { t } = useTranslation()
-
+  const { filter } = useContext(DictionaryFilterContext);
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -21,6 +22,11 @@ export default ({ onHide, handleSubmit }) => {
       name: Yup.string()
         .required(t('common.errors.required'))
         .notOneOf(existingChannels, t('modals.common.errors.unique'))
+        .test(
+          'profanity-test',
+          t('modals.common.errors.badLanguage'),
+          (value) => !filter.check(value)
+        ),
     }),
     onSubmit: ({ name }) => {
       handleSubmit({ name });
