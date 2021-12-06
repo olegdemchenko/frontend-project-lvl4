@@ -1,25 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
+import { Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import SocketContext from '../contexts/SocketContext';
-import { 
-  changeCurrentChannel, 
+import {
+  changeCurrentChannel,
   selectDefaultChannel,
   setStatus as setChatStatus,
 } from '../store/chatSlice';
-import { 
-  addMessage, 
+import {
+  addMessage,
   setStatus as setMessagesStatus,
   deleteChannelMessages,
 } from '../store/messagesSlice';
-import { 
-  addChannel, 
-  setStatus as setChannelsStatus, 
+import {
+  addChannel,
+  setStatus as setChannelsStatus,
   renameChannel,
   deleteChannel,
- } from '../store/channelsSlice';
+} from '../store/channelsSlice';
 
 export default ({ children }) => {
   const [error, setError] = useState(null);
@@ -50,7 +51,7 @@ export default ({ children }) => {
     socket.current.on('removeChannel', (channel) => {
       dispatch(deleteChannel(channel));
       dispatch(deleteChannelMessages(channel));
-      dispatch(selectDefaultChannel())
+      dispatch(selectDefaultChannel());
       dispatch(setChatStatus('removeChannelSuccess'));
     });
     return () => {
@@ -103,17 +104,18 @@ export default ({ children }) => {
   };
 
   if (error) {
-    return <Alert variant="danger">{`Error: ${error}`}</Alert>
+    return <Alert variant="danger">{`Error: ${error}`}</Alert>;
   }
 
   return (
-    <SocketContext.Provider value={{ 
-      sendMessage, 
-      createChannel, 
+    <SocketContext.Provider value={{
+      sendMessage,
+      createChannel,
       changeChannelName,
       removeChannel,
-      }}>
+    }}
+    >
       {children}
     </SocketContext.Provider>
   );
-}
+};

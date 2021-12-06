@@ -1,4 +1,9 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useContext,
+} from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -26,13 +31,13 @@ export default ({ onHide, handleSubmit, item }) => {
         .test(
           'profanity-test',
           t('modals.common.errors.badLanguage'),
-          (value) => !filter.check(value)
+          (value) => !filter.check(value),
         ),
     }),
     onSubmit: ({ name }) => {
       handleSubmit({ name, id: selectedChannel.id });
       setStatus('sending');
-    }
+    },
   });
   useEffect(() => {
     inputRef.current.focus();
@@ -45,7 +50,7 @@ export default ({ onHide, handleSubmit, item }) => {
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
-            <Form.Control 
+            <Form.Control
               aria-label="channel name"
               className="mb-2"
               ref={inputRef}
@@ -59,17 +64,21 @@ export default ({ onHide, handleSubmit, item }) => {
               {formik.errors.name}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-              <Button 
+              <Button
                 variant="secondary"
-                type="button" 
-                className="me-2" 
+                type="button"
+                className="me-2"
                 onClick={onHide}
-              >{t('modals.common.cancel')}</Button>
-              <Button 
-                variant="primary" 
+              >
+                {t('modals.common.cancel')}
+              </Button>
+              <Button
+                variant="primary"
                 type="submit"
                 disabled={status === 'sending'}
-              >{t('modals.common.send')}</Button>
+              >
+                {t('modals.common.send')}
+              </Button>
             </div>
           </Form.Group>
         </Form>

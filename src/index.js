@@ -1,3 +1,3 @@
-import initApp from './init';
+import initApp from './init.jsx';
 
 initApp();

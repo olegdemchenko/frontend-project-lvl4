@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { useTranslation } from "react-i18next";
-
+import { useTranslation } from 'react-i18next';
 
 export default ({ onHide, handleSubmit, item }) => {
   const [status, setStatus] = useState('filling');
@@ -14,12 +13,14 @@ export default ({ onHide, handleSubmit, item }) => {
       <Modal.Body>
         <p className="lead">{t('modals.delete.sure')}</p>
         <div className="d-flex justify-content-end">
-          <Button 
-            variant="secondary" 
-            type="button" 
-            className="me-2" 
+          <Button
+            variant="secondary"
+            type="button"
+            className="me-2"
             onClick={onHide}
-          >{t('modals.common.cancel')}</Button>
+          >
+            {t('modals.common.cancel')}
+          </Button>
           <Button
             variant="danger"
             type="submit"
@@ -28,7 +29,9 @@ export default ({ onHide, handleSubmit, item }) => {
               setStatus('sending');
             }}
             disabled={status === 'sending'}
-          >{t('modals.delete.delete')}</Button>
+          >
+            {t('modals.delete.delete')}
+          </Button>
         </div>
       </Modal.Body>
     </Modal>

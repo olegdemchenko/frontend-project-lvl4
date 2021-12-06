@@ -5,8 +5,8 @@ import 'regenerator-runtime/runtime.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 import filter from 'leo-profanity';
 
 import store from './store/store.js';
@@ -23,9 +23,9 @@ export default async () => {
     .init({
       resources,
       lng: currentLang,
-      fallbackLng: "en",
+      fallbackLng: 'en',
     });
-  
+
   if (process.env.NODE_ENV !== 'production') {
     localStorage.debug = 'chat:*';
   }
@@ -43,9 +43,11 @@ export default async () => {
 
   const Filter = ({ children }) => {
     filter.loadDictionary(currentLang);
-    return <DictionaryFilterContext.Provider value={{ filter }}>
-      {children}
-    </DictionaryFilterContext.Provider>
+    return (
+      <DictionaryFilterContext.Provider value={{ filter }}>
+        {children}
+      </DictionaryFilterContext.Provider>
+    );
   };
 
   ReactDOM.render(
@@ -54,5 +56,6 @@ export default async () => {
         <App />
       </Filter>
     </Provider>,
-    document.getElementById('chat').firstElementChild);
+    document.getElementById('chat').firstElementChild,
+  );
 };

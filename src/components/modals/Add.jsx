@@ -1,4 +1,9 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+} from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -12,7 +17,7 @@ export default ({ onHide, handleSubmit }) => {
   const [status, setStatus] = useState('filling');
   const inputRef = useRef();
   const existingChannels = useSelector(selectChannelsNames);
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const { filter } = useContext(DictionaryFilterContext);
   const formik = useFormik({
     initialValues: {
@@ -25,13 +30,13 @@ export default ({ onHide, handleSubmit }) => {
         .test(
           'profanity-test',
           t('modals.common.errors.badLanguage'),
-          (value) => !filter.check(value)
+          (value) => !filter.check(value),
         ),
     }),
     onSubmit: ({ name }) => {
       handleSubmit({ name });
       setStatus('sending');
-    }
+    },
   });
   useEffect(() => {
     inputRef.current.focus();
@@ -44,7 +49,7 @@ export default ({ onHide, handleSubmit }) => {
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
-            <Form.Control 
+            <Form.Control
               aria-label="channel name"
               className="mb-2"
               ref={inputRef}
@@ -58,17 +63,21 @@ export default ({ onHide, handleSubmit }) => {
               {formik.errors.name}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-              <Button 
-                variant="secondary" 
-                type="button" 
-                className="me-2" 
+              <Button
+                variant="secondary"
+                type="button"
+                className="me-2"
                 onClick={onHide}
-              >{t('modals.common.cancel')}</Button>
-              <Button 
-                variant="primary" 
+              >
+                {t('modals.common.cancel')}
+              </Button>
+              <Button
+                variant="primary"
                 type="submit"
                 disabled={status === 'sending'}
-              >{t('modals.common.send')}</Button>
+              >
+                {t('modals.common.send')}
+              </Button>
             </div>
           </Form.Group>
         </Form>

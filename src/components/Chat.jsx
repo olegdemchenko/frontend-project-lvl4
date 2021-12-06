@@ -16,15 +16,15 @@ export default () => {
   useEffect(() => {
     dispatch(fetchInitData());
   }, []);
-  
+
   const { t } = useTranslation();
   const chatStatus = useSelector(selectStatus);
   if (chatStatus === 'fetchDataError') {
-    return <Alert variant="danger">{t("chat.errors.fetchDataFailed")}</Alert>
+    return <Alert variant="danger">{t('chat.errors.fetchDataFailed')}</Alert>;
   }
 
   const chatNotificationsMap = {
-    addChannelSuccess: t('chat.addChannelSuccess') ,
+    addChannelSuccess: t('chat.addChannelSuccess'),
     addChannelError: t('chat.errors.addChannelError'),
     renameChannelSuccess: t('chat.renameChannelSuccess'),
     renameChannelError: t('chat.errors.renameChannelError'),
@@ -37,7 +37,7 @@ export default () => {
     if (chatNotificationsMap[chatStatus]) {
       const notificationType = chatStatus.includes('error') ? 'error' : 'success';
       toast[notificationType](chatNotificationsMap[chatStatus], {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -61,4 +61,4 @@ export default () => {
       </Row>
     </Container>
   );
-}
+};

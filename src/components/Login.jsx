@@ -2,14 +2,23 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Container, Row, Col, Card, Image, Button, Form, FloatingLabel } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Image,
+  Button,
+  Form,
+  FloatingLabel,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import routes from '../routes';
 import useAuth from '../hooks/index.jsx';
 import logo from '../../assets/img/loginIcon.jpeg';
 
-export default () =>  {
+export default () => {
   const { logIn } = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const usernameRef = useRef();
@@ -24,11 +33,11 @@ export default () =>  {
   const formik = useFormik({
     initialValues: {
       username: '',
-      password: ''
+      password: '',
     },
     onSubmit: async ({ username, password }) => {
       try {
-        const { data } = await axios.post(routes.loginPath(), { username, password });                   
+        const { data } = await axios.post(routes.loginPath(), { username, password });
         localStorage.setItem('userId', JSON.stringify(data));
         logIn();
         const from = location.state?.from?.pathname ?? '/';
@@ -37,10 +46,10 @@ export default () =>  {
         if (e.isAxiosError && e.response.status === 401) {
           setAuthFailed(true);
           return;
-        } 
+        }
         throw e;
       }
-    }
+    },
   });
 
   return (
@@ -56,26 +65,26 @@ export default () =>  {
                 <h1 className="text-center mb-4">{t('login.enter')}</h1>
                 <Form.Group className="mb-3" controlId="username">
                   <FloatingLabel label={t('common.nickname')}>
-                    <Form.Control 
-                      ref={usernameRef} 
-                      onChange={formik.handleChange} 
-                      isInvalid={authFailed} 
-                      name="username" 
-                      id="username" 
-                      placeholder={t('common.nickname')} 
-                      required 
+                    <Form.Control
+                      ref={usernameRef}
+                      onChange={formik.handleChange}
+                      isInvalid={authFailed}
+                      name="username"
+                      id="username"
+                      placeholder={t('common.nickname')}
+                      required
                     />
                   </FloatingLabel>
                 </Form.Group>
                 <Form.Group className="mb-4" controlId="password">
                   <FloatingLabel label={t('common.password')}>
-                    <Form.Control 
+                    <Form.Control
                       type="password"
-                      name="password" 
-                      onChange={formik.handleChange} 
-                      isInvalid={authFailed} 
-                      id="password" 
-                      placeholder={t('common.password')} 
+                      name="password"
+                      onChange={formik.handleChange}
+                      isInvalid={authFailed}
+                      id="password"
+                      placeholder={t('common.password')}
                       required
                     />
                     <Form.Control.Feedback tooltip type="invalid">{t('login.errors.wrongCredentials')}</Form.Control.Feedback>
@@ -94,5 +103,5 @@ export default () =>  {
         </Col>
       </Row>
     </Container>
-  )
+  );
 };
