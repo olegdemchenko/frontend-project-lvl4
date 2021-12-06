@@ -1,8 +1,11 @@
-import { 
+/* eslint-disable no-param-reassign */
+import {
   createSlice,
-  createEntityAdapter, 
-  createSelector
+  createEntityAdapter,
+  createSelector,
 } from '@reduxjs/toolkit';
+
+import { fetchInitData } from './chatSlice';
 
 const channelsAdapter = createEntityAdapter();
 
@@ -22,35 +25,40 @@ const channelsSlice = createSlice({
     },
     setStatus: (state, action) => {
       state.status = action.payload;
-    }
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchInitData.fulfilled, (state, action) => {
+        channelsAdapter.addMany(state, action.payload.channels);
+      });
   },
 });
 
 export default channelsSlice.reducer;
 
-export const { 
-  addChannels, 
-  addChannel, 
-  renameChannel, 
+export const {
+  addChannels,
+  addChannel,
+  renameChannel,
   deleteChannel,
-  setStatus
+  setStatus,
 } = channelsSlice.actions;
 
-export const { selectAll: selectChannels, selectById: selectChannelById } =
-  channelsAdapter.getSelectors(state => state.channels);
+export const {
+  selectAll: selectChannels,
+  selectById: selectChannelById,
+} = channelsAdapter.getSelectors((state) => state.channels);
 
 export const selectCurrentChannel = createSelector(
   selectChannels,
-  state => state.chat.currentChannelId,
-  (channels, currentChannelId) => channels.find(({ id }) => id === currentChannelId)
+  (state) => state.chat.currentChannelId,
+  (channels, currentChannelId) => channels.find(({ id }) => id === currentChannelId),
 );
 
 export const selectChannelsNames = createSelector(
   selectChannels,
-  (channels) => channels.map(({ name }) => name)
+  (channels) => channels.map(({ name }) => name),
 );
 
-export const selectStatus = state => state.channels.status;
-
-
-
+export const selectStatus = (state) => state.channels.status;
