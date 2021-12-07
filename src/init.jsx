@@ -1,7 +1,4 @@
 // @ts-check
-
-import 'core-js/stable/index.js';
-import 'regenerator-runtime/runtime.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -25,10 +22,6 @@ export default async () => {
       lng: currentLang,
       fallbackLng: 'en',
     });
-
-  if (process.env.NODE_ENV !== 'production') {
-    localStorage.debug = 'chat:*';
-  }
 
   const Filter = ({ children }) => {
     filter.loadDictionary(currentLang);
