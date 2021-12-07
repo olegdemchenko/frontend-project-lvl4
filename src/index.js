@@ -15,13 +15,13 @@ if (!chat) {
   firstContainer.classList.add('h-100');
   document.body.append(firstContainer);
   const newChat = document.createElement('div');
-  chat.setAttribute('id', 'chat');
-  chat.classList.add('h-100');
+  newChat.setAttribute('id', 'chat');
+  newChat.classList.add('h-100');
   firstContainer.append(newChat);
   const chatContainer = document.createElement('div');
   chatContainer.setAttribute('id', 'chat-container');
   chatContainer.classList.add('d-flex', 'flex-column', 'h-100');
-  chat.append(chatContainer);
+  newChat.append(chatContainer);
 }
 
 initApp();
