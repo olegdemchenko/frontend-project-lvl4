@@ -82,8 +82,8 @@ export default () => {
               </Col>
               <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">{t('registration.registration')}</h1>
-                <Form.Group className="mb-3" controlId="username">
-                  <FloatingLabel label={t('common.nickname')}>
+                <Form.Group className="mb-3">
+                  <FloatingLabel label={t('common.nickname')} controlId="username">
                     <Form.Control
                       ref={usernameRef}
                       value={formik.values.username}
@@ -91,14 +91,13 @@ export default () => {
                       onBlur={formik.handleBlur}
                       isInvalid={formik.touched.username && formik.errors.username}
                       name="username"
-                      id="username"
                       placeholder={t('common.nickname')}
                     />
                     <Form.Control.Feedback tooltip type="invalid">{formik.errors.username}</Form.Control.Feedback>
                   </FloatingLabel>
                 </Form.Group>
-                <Form.Group className="mb-4" controlId="password">
-                  <FloatingLabel label={t('common.password')}>
+                <Form.Group className="mb-4">
+                  <FloatingLabel label={t('common.password')} controlId="password">
                     <Form.Control
                       name="password"
                       type="password"
@@ -106,14 +105,13 @@ export default () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       isInvalid={formik.touched.password && formik.errors.password}
-                      id="password"
                       placeholder={t('common.password')}
                     />
                     <Form.Control.Feedback tooltip type="invalid">{formik.errors.password}</Form.Control.Feedback>
                   </FloatingLabel>
                 </Form.Group>
-                <Form.Group className="mb-4" controlId="passwordConfirm">
-                  <FloatingLabel label={t('registration.passwordConfirm')}>
+                <Form.Group className="mb-4">
+                  <FloatingLabel label={t('registration.passwordConfirm')} controlId="passwordConfirm">
                     <Form.Control
                       name="passwordConfirm"
                       type="password"
@@ -121,7 +119,6 @@ export default () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       isInvalid={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
-                      id="passwordConfirm"
                       placeholder={t('registration.passwordConfirm')}
                     />
                     <Form.Control.Feedback tooltip type="invalid">{formik.errors.passwordConfirm}</Form.Control.Feedback>

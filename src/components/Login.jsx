@@ -63,27 +63,25 @@ export default () => {
               </Col>
               <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">{t('login.enter')}</h1>
-                <Form.Group className="mb-3" controlId="username">
-                  <FloatingLabel label={t('common.nickname')}>
+                <Form.Group className="mb-3">
+                  <FloatingLabel label={t('common.nickname')} controlId="username">
                     <Form.Control
                       ref={usernameRef}
                       onChange={formik.handleChange}
                       isInvalid={authFailed}
                       name="username"
-                      id="username"
                       placeholder={t('common.nickname')}
                       required
                     />
                   </FloatingLabel>
                 </Form.Group>
-                <Form.Group className="mb-4" controlId="password">
-                  <FloatingLabel label={t('common.password')}>
+                <Form.Group className="mb-4">
+                  <FloatingLabel label={t('common.password')} controlId="password">
                     <Form.Control
                       type="password"
                       name="password"
                       onChange={formik.handleChange}
                       isInvalid={authFailed}
-                      id="password"
                       placeholder={t('common.password')}
                       required
                     />
