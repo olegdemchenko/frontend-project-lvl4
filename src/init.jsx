@@ -39,12 +39,14 @@ export default async () => {
     );
   };
 
+  console.log(document.getElementById('chat'));
+
   ReactDOM.render(
     <Provider store={store}>
       <Filter>
         <App />
       </Filter>
     </Provider>,
-    document.getElementById('chat').firstElementChild,
+    document.getElementById('chat-container'),
   );
 };
