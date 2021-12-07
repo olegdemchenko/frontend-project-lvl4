@@ -36,7 +36,7 @@ const AuthProvider = ({ children }) => {
 const RequireAuth = ({ children }) => {
   const location = useLocation();
   const { loggedIn } = useAuth();
-  if (!loggedIn) {
+  if (!loggedIn || !localStorage.getItem('userId')) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
   return children;
