@@ -85,7 +85,7 @@ export default () => {
                       placeholder={t('common.password')}
                       required
                     />
-                    <Form.Control.Feedback tooltip type="invalid">{t('login.errors.wrongCredentials')}</Form.Control.Feedback>
+                    {authFailed && <Form.Control.Feedback tooltip type="invalid">{t('login.errors.wrongCredentials')}</Form.Control.Feedback>}
                   </FloatingLabel>
                 </Form.Group>
                 <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('login.enter')}</Button>
