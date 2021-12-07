@@ -30,17 +30,6 @@ export default async () => {
     localStorage.debug = 'chat:*';
   }
 
-  const normalizeMainPageLayout = () => {
-    document.body.classList.add('bg-light');
-    document.body.firstElementChild.classList.remove('container-lg', 'p-3');
-    const chatContainer = document.getElementById('chat');
-    const appContainer = document.createElement('div');
-    appContainer.classList.add('d-flex', 'flex-column', 'h-100');
-    chatContainer.append(appContainer);
-  };
-
-  normalizeMainPageLayout();
-
   const Filter = ({ children }) => {
     filter.loadDictionary(currentLang);
     return (
