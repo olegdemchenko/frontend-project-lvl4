@@ -25,6 +25,7 @@ export default () => {
   const usernameRef = useRef();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  console.log('registration');
   useEffect(() => {
     usernameRef.current.focus();
   }, []);
