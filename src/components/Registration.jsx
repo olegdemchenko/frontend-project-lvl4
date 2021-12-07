@@ -51,8 +51,9 @@ export default () => {
     }),
     onSubmit: async ({ username, password }) => {
       try {
-        const { data } = await axios.post(routes.signupPath(), { username, password });
-        localStorage.setItem('userId', JSON.stringify(data));
+        const response = await axios.post(routes.signupPath(), { username, password });
+        console.log(response);
+        localStorage.setItem('userId', JSON.stringify(response.data));
         logIn();
         navigate('/');
       } catch (e) {
