@@ -39,8 +39,6 @@ export default async () => {
     );
   };
 
-  console.log(document.getElementById('chat'));
-
   ReactDOM.render(
     <Provider store={store}>
       <Filter>
