@@ -25,7 +25,7 @@ export default async (socket = io()) => {
     });
 
   const Filter = ({ children }) => {
-    filter.loadDictionary(currentLang);
+    filter.loadDictionary();
     return (
       <DictionaryFilterContext.Provider value={{ filter }}>
         {children}
