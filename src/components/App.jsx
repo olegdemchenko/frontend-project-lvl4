@@ -10,7 +10,6 @@ import {
 import Header from './Header.jsx';
 import Login from './Login.jsx';
 import Signup from './Registration.jsx';
-import Socket from './Socket.jsx';
 import Chat from './Chat.jsx';
 import NotFound from './NotFound.jsx';
 import authContext from '../contexts/AuthContext';
@@ -52,9 +51,7 @@ export default () => (
           element={
             (
               <RequireAuth>
-                <Socket>
-                  <Chat />
-                </Socket>
+                <Chat />
               </RequireAuth>
             )
       } />

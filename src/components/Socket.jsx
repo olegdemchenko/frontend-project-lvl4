@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import io from 'socket.io-client';
 import { Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
@@ -22,33 +21,31 @@ import {
   deleteChannel,
 } from '../store/channelsSlice';
 
-export default ({ children }) => {
+export default ({ socket, children }) => {
   const [error, setError] = useState(null);
-  const socket = useRef(null);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   useEffect(() => {
-    socket.current = io();
-    socket.current.on('connect', () => {
+    socket.on('connect', () => {
       console.log('websocket has been connected!');
     });
-    socket.current.on('connect_error', () => {
+    socket.on('connect_error', () => {
       console.log('connection error');
       setError(t('socket.errors.connectionErr'));
     });
-    socket.current.on('newMessage', (message) => {
+    socket.on('newMessage', (message) => {
       dispatch(addMessage(message));
     });
-    socket.current.on('newChannel', (channel) => {
+    socket.on('newChannel', (channel) => {
       dispatch(addChannel(channel));
       dispatch(changeCurrentChannel(channel.id));
       dispatch(setChatStatus('addChannelSuccess'));
     });
-    socket.current.on('renameChannel', (channel) => {
+    socket.on('renameChannel', (channel) => {
       dispatch(renameChannel(channel));
       dispatch(setChatStatus('renameChannelSuccess'));
     });
-    socket.current.on('removeChannel', (channel) => {
+    socket.on('removeChannel', (channel) => {
       dispatch(deleteChannel(channel));
       dispatch(deleteChannelMessages(channel));
       dispatch(selectDefaultChannel());
@@ -61,7 +58,7 @@ export default ({ children }) => {
 
   const sendMessage = (message) => {
     dispatch(setMessagesStatus('sending'));
-    socket.current.emit('newMessage', message, ({ status }) => {
+    socket.emit('newMessage', message, ({ status }) => {
       if (status === 'ok') {
         dispatch(setMessagesStatus('sendingSuccess'));
       } else {
@@ -72,7 +69,7 @@ export default ({ children }) => {
 
   const createChannel = (channel) => {
     dispatch(setChannelsStatus('sending'));
-    socket.current.emit('newChannel', channel, ({ status }) => {
+    socket.emit('newChannel', channel, ({ status }) => {
       if (status === 'ok') {
         dispatch(setChannelsStatus('sendingSuccess'));
       } else {
@@ -83,7 +80,7 @@ export default ({ children }) => {
 
   const changeChannelName = (channelData) => {
     dispatch(setChannelsStatus('sending'));
-    socket.current.emit('renameChannel', channelData, ({ status }) => {
+    socket.emit('renameChannel', channelData, ({ status }) => {
       if (status === 'ok') {
         dispatch(setChannelsStatus('sendingSuccess'));
       } else {
@@ -94,7 +91,7 @@ export default ({ children }) => {
 
   const removeChannel = (channel) => {
     dispatch(setChannelsStatus('sending'));
-    socket.current.emit('removeChannel', channel, ({ status }) => {
+    socket.emit('removeChannel', channel, ({ status }) => {
       if (status === 'ok') {
         dispatch(setChannelsStatus('sendingSuccess'));
       } else {
