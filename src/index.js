@@ -1,13 +1,20 @@
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 import '../assets/application.scss';
+import ReactDOM from 'react-dom';
 
-import initApp from './init.jsx';
+import init from './init.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-initApp();
+const app = async () => {
+  const vdom = await init();
+  ReactDOM.render(vdom, document.querySelector('#chat'));
+  return vdom;
+};
 
-export default initApp;
+app();
+
+export default app;

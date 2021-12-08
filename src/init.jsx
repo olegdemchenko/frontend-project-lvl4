@@ -1,6 +1,5 @@
 // @ts-check
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -32,12 +31,11 @@ export default async () => {
     );
   };
 
-  ReactDOM.render(
+  return (
     <Provider store={store}>
       <Filter>
         <App />
       </Filter>
-    </Provider>,
-    document.getElementById('chat'),
+    </Provider>
   );
 };
