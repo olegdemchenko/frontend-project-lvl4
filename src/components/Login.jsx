@@ -38,6 +38,7 @@ export default () => {
     onSubmit: async ({ username, password }) => {
       try {
         const { data } = await axios.post(routes.loginPath(), { username, password });
+        console.log('login', data);
         localStorage.setItem('userId', JSON.stringify(data));
         logIn();
         const from = location.state?.from?.pathname ?? '/';
