@@ -38,6 +38,6 @@ export default async () => {
         <App />
       </Filter>
     </Provider>,
-    document.getElementById('chat-container'),
+    document.getElementById('chat'),
   );
 };
