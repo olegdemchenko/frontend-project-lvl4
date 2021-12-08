@@ -25,7 +25,6 @@ export default () => {
   const usernameRef = useRef();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  console.log('registration');
   useEffect(() => {
     usernameRef.current.focus();
   }, []);
@@ -53,7 +52,6 @@ export default () => {
     onSubmit: async ({ username, password }) => {
       try {
         const response = await axios.post(routes.signupPath(), { username, password });
-        console.log(response);
         localStorage.setItem('userId', JSON.stringify(response.data));
         logIn();
         navigate('/');

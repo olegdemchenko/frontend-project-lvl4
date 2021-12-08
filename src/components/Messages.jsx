@@ -18,7 +18,6 @@ export default () => {
   const inputRef = useRef();
   const { t } = useTranslation();
   const { filter } = useContext(DictionaryFilterContext);
-  console.log('messages', currentChannel, currentMessages);
   useEffect(() => {
     inputRef.current.focus();
   }, []);
