@@ -46,6 +46,7 @@ export default {
       count_few: '{{count}} messages',
       count_many: '{{count}} messages',
       enterMessage: 'Enter a message...',
+      newMessage: 'New message',
     },
     modals: {
       common: {

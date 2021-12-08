@@ -49,6 +49,7 @@ export default {
       count_few: '{{count }} сообщения',
       count_many: '{{count}} сообщений',
       enterMessage: 'Введите сообщение...',
+      newMessage: 'Новое сообщение',
     },
     modals: {
       common: {

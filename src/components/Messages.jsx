@@ -57,7 +57,7 @@ export default () => {
                 type="text"
                 placeholder={t('messages.enterMessage')}
                 name="message"
-                aria-label="New message"
+                aria-label={t('messages.newMessage')}
                 value={formik.values.message}
                 onChange={formik.handleChange}
                 disabled={status === 'sending'}
