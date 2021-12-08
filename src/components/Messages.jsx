@@ -21,13 +21,12 @@ export default () => {
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-
   const formik = useFormik({
     initialValues: {
       message: '',
     },
     onSubmit: ({ message }, { resetForm }) => {
-      sendMessage({ channelId: currentChannel.id, username, message: filter.clean(message) });
+      sendMessage({ channelId: currentChannel.id, username, message });
       resetForm({ message: '' });
     },
   });
@@ -59,7 +58,7 @@ export default () => {
                 name="message"
                 aria-label={t('messages.newMessage')}
                 value={formik.values.message}
-                onChange={formik.handleChange}
+                onChange={(e) => formik.setFieldValue('message', filter.clean(e.target.value))}
                 disabled={status === 'sending'}
               />
               <div className="input-group-append">
