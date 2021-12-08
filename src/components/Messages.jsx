@@ -26,7 +26,9 @@ export default () => {
       message: '',
     },
     onSubmit: ({ message }, { resetForm }) => {
-      sendMessage({ channelId: currentChannel.id, username, message });
+      const filteredMessage = filter.clean(message);
+      console.log(filteredMessage);
+      sendMessage({ channelId: currentChannel.id, username, message: filteredMessage });
       resetForm({ message: '' });
     },
   });
@@ -52,13 +54,13 @@ export default () => {
             <InputGroup hasValidation>
               <Form.Control
                 ref={inputRef}
-                className="border-0 p-0 ps-2 form-control"
+                className="border-0 p-0 ps-2"
                 type="text"
                 placeholder={t('messages.enterMessage')}
                 name="message"
                 aria-label={t('messages.newMessage')}
                 value={formik.values.message}
-                onChange={(e) => formik.setFieldValue('message', filter.clean(e.target.value))}
+                onChange={formik.handleChange}
                 disabled={status === 'sending'}
               />
               <div className="input-group-append">
