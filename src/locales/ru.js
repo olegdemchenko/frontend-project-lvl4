@@ -73,6 +73,7 @@ export default {
       },
     },
     registration: {
+      username: 'Имя пользователя',
       registration: 'Регистрация',
       passwordConfirm: 'Подтвердите пароль',
       registerMe: 'Зарегистрироваться',

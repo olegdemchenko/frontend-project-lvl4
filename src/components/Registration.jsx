@@ -85,7 +85,7 @@ export default () => {
               <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">{t('registration.registration')}</h1>
                 <Form.Group className="mb-3">
-                  <FloatingLabel label={t('common.nickname')} controlId="username">
+                  <FloatingLabel label={t('registration.username')} controlId="username">
                     <Form.Control
                       ref={usernameRef}
                       value={formik.values.username}
@@ -93,7 +93,7 @@ export default () => {
                       onBlur={formik.handleBlur}
                       isInvalid={formik.touched.username && formik.errors.username}
                       name="username"
-                      placeholder={t('common.nickname')}
+                      placeholder={t('registration.username')}
                     />
                     <Form.Control.Feedback tooltip type="invalid">{formik.errors.username}</Form.Control.Feedback>
                   </FloatingLabel>

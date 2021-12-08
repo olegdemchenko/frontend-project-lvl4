@@ -70,6 +70,7 @@ export default {
       },
     },
     registration: {
+      username: 'User name',
       registration: 'Registration',
       passwordConfirm: 'Confirm password',
       registerMe: 'Register me',
