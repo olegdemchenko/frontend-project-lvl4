@@ -6,7 +6,11 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
+import store from '../store/store.js';
+import { reset } from '../store/chatSlice';
+import Socket from './Socket.jsx';
 import Header from './Header.jsx';
 import Login from './Login.jsx';
 import Signup from './Registration.jsx';
@@ -19,9 +23,14 @@ const AuthProvider = ({ children }) => {
   const isAuthorized = !!localStorage.getItem('userId');
   const [loggedIn, setLoggedIn] = useState(isAuthorized);
 
-  const logIn = () => setLoggedIn(true);
+  const logIn = () => {
+    store.dispatch(reset());
+    setLoggedIn(true);
+  };
+
   const logOut = () => {
     localStorage.removeItem('userId');
+    store.dispatch(reset());
     setLoggedIn(false);
   };
 
@@ -41,7 +50,7 @@ const RequireAuth = ({ children }) => {
   return children;
 };
 
-export default () => (
+export default ({ socket }) => (
   <BrowserRouter>
     <AuthProvider>
       <Header />
@@ -51,7 +60,11 @@ export default () => (
           element={
             (
               <RequireAuth>
-                <Chat />
+                <Provider store={store}>
+                  <Socket socket={socket}>
+                    <Chat />
+                  </Socket>
+                </Provider>
               </RequireAuth>
             )
       } />

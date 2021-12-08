@@ -5,7 +5,7 @@ import {
   createSelector,
 } from '@reduxjs/toolkit';
 
-import { fetchInitData } from './chatSlice';
+import { fetchInitData, reset } from './chatSlice';
 
 const messagesAdapter = createEntityAdapter();
 
@@ -33,7 +33,8 @@ const messagesSlice = createSlice({
     builder
       .addCase(fetchInitData.fulfilled, (state, action) => {
         messagesAdapter.addMany(state, action.payload.messages);
-      });
+      })
+      .addCase(reset, () => initialState);
   },
 });
 

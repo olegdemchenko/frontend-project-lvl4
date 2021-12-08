@@ -5,7 +5,7 @@ import {
   createSelector,
 } from '@reduxjs/toolkit';
 
-import { fetchInitData } from './chatSlice';
+import { fetchInitData, reset } from './chatSlice';
 
 const channelsAdapter = createEntityAdapter();
 
@@ -31,7 +31,8 @@ const channelsSlice = createSlice({
     builder
       .addCase(fetchInitData.fulfilled, (state, action) => {
         channelsAdapter.addMany(state, action.payload.channels);
-      });
+      })
+      .addCase(reset, () => initialState);
   },
 });
 

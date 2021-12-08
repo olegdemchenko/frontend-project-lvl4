@@ -16,13 +16,15 @@ export const fetchInitData = createAsyncThunk('chat/fetchInitData', async () => 
   return { channels, messages, currentChannelId };
 });
 
+const initialState = {
+  status: 'idle',
+  defaultChannelId: null,
+  currentChannelId: null,
+};
+
 const chatSlice = createSlice({
   name: 'chat',
-  initialState: {
-    status: 'idle',
-    defaultChannelId: null,
-    currentChannelId: null,
-  },
+  initialState,
   reducers: {
     selectDefaultChannel(state) {
       state.currentChannelId = state.defaultChannelId;
@@ -32,6 +34,9 @@ const chatSlice = createSlice({
     },
     setStatus(state, action) {
       state.status = action.payload;
+    },
+    reset() {
+      return initialState;
     },
   },
   extraReducers: (builder) => {
@@ -56,6 +61,7 @@ export const {
   setStatus,
   changeCurrentChannel,
   selectDefaultChannel,
+  reset,
 } = chatSlice.actions;
 
 export const selectCurrentChannelId = (state) => state.chat.currentChannelId;
