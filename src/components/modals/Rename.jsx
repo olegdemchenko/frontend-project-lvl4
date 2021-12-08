@@ -50,6 +50,9 @@ export default ({ onHide, handleSubmit, item }) => {
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
+            <Form.Label className="visually-hidden" htmlFor="name">
+              {t('modals.common.channelName')}
+            </Form.Label>
             <Form.Control
               aria-label="channel name"
               className="mb-2"

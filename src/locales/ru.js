@@ -56,6 +56,7 @@ export default {
       common: {
         cancel: 'Отменить',
         send: 'Отправить',
+        channelName: 'Имя канала',
         errors: {
           required: 'Обязательное поле',
           unique: 'Должно быть уникальным',

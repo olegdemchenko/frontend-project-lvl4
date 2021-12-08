@@ -53,6 +53,7 @@ export default {
       common: {
         cancel: 'Cancel',
         send: 'Send',
+        channelName: 'Name of the channel',
         errors: {
           required: 'Required field',
           unique: 'Must be unique',
