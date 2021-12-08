@@ -50,6 +50,7 @@ export default {
       count_many: '{{count}} сообщений',
       enterMessage: 'Введите сообщение...',
       newMessage: 'Новое сообщение',
+      send: 'Отправить',
     },
     modals: {
       common: {
