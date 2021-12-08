@@ -58,6 +58,7 @@ export default ({ onHide, handleSubmit, item }) => {
               className="mb-2"
               ref={inputRef}
               name="name"
+              id="name"
               onChange={formik.handleChange}
               value={formik.values.name}
               isInvalid={formik.errors.name}
