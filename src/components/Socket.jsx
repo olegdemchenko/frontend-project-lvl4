@@ -52,7 +52,7 @@ export default ({ socket, children }) => {
       dispatch(setChatStatus('removeChannelSuccess'));
     });
     return () => {
-      socket.current.disconnect();
+      socket.disconnect();
     };
   }, []);
 
