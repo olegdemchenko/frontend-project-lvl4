@@ -26,9 +26,7 @@ export default () => {
       message: '',
     },
     onSubmit: ({ message }, { resetForm }) => {
-      const filteredMessage = filter.clean(message);
-      console.log(filteredMessage);
-      sendMessage({ channelId: currentChannel.id, username, message: filteredMessage });
+      sendMessage({ channelId: currentChannel.id, username, message: filter.clean(message) });
       resetForm({ message: '' });
     },
   });
