@@ -43,7 +43,7 @@ export default () => {
       password: Yup.string()
         .required(t('common.errors.required'))
         .trim()
-        .min(6, t('regisrtation.errors.incorrectPasswordLength')),
+        .min(6, t('registration.errors.incorrectPasswordLength')),
       passwordConfirm: Yup.string().required(t('registration.errors.confirm')).when('password', {
         is: (val) => val,
         then: Yup.string().oneOf([Yup.ref('password')], t('registration.errors.passwordsNotEqual')),
