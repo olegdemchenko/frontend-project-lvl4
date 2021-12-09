@@ -11,6 +11,7 @@ const channelsAdapter = createEntityAdapter();
 
 const initialState = channelsAdapter.getInitialState({
   status: 'pending',
+  modal: {},
 });
 
 const channelsSlice = createSlice({
@@ -19,6 +20,9 @@ const channelsSlice = createSlice({
   reducers: {
     addChannels: channelsAdapter.addMany,
     addChannel: channelsAdapter.addOne,
+    setModalInfo: (state, action) => {
+      state.modal = action.payload;
+    },
     renameChannel: channelsAdapter.upsertOne,
     deleteChannel: (state, action) => {
       channelsAdapter.removeOne(state, action.payload.id);
@@ -44,6 +48,7 @@ export const {
   renameChannel,
   deleteChannel,
   setStatus,
+  setModalInfo,
 } = channelsSlice.actions;
 
 export const {
@@ -63,3 +68,5 @@ export const selectChannelsNames = createSelector(
 );
 
 export const selectStatus = (state) => state.channels.status;
+
+export const selectModal = (state) => state.channels.modal;
