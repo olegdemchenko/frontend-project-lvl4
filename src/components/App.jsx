@@ -53,25 +53,27 @@ const RequireAuth = ({ children }) => {
 export default ({ socket }) => (
   <BrowserRouter>
     <AuthProvider>
-      <Header />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            (
-              <RequireAuth>
-                <Provider store={store}>
-                  <Socket socket={socket}>
-                    <Chat />
-                  </Socket>
-                </Provider>
-              </RequireAuth>
-            )
-      } />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <div className="d-flex flex-column h-100">
+        <Header />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              (
+                <RequireAuth>
+                  <Provider store={store}>
+                    <Socket socket={socket}>
+                      <Chat />
+                    </Socket>
+                  </Provider>
+                </RequireAuth>
+              )
+        } />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
     </AuthProvider>
   </BrowserRouter>
 );
