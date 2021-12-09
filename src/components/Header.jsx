@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import useAuth from '../hooks/index.jsx';
 
-export default () => {
+const Header = () => {
   const { loggedIn, logOut } = useAuth();
   const { t } = useTranslation();
   return (
@@ -17,3 +17,5 @@ export default () => {
     </Navbar>
   );
 };
+
+export default Header;

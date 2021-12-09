@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { selectChannelsNames, selectChannelById } from '../../store/channelsSlice';
 import DictionaryFilterContext from '../../contexts/DictionaryFilterContext';
 
-export default ({ onHide, handleSubmit, item }) => {
+const Rename = ({ onHide, handleSubmit, item }) => {
   const [status, setStatus] = useState('filling');
   const inputRef = useRef();
   const existingChannels = useSelector(selectChannelsNames);
@@ -90,3 +90,5 @@ export default ({ onHide, handleSubmit, item }) => {
     </Modal>
   );
 };
+
+export default Rename;

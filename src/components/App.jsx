@@ -50,7 +50,7 @@ const RequireAuth = ({ children }) => {
   return children;
 };
 
-export default ({ socket }) => (
+const App = ({ socket }) => (
   <BrowserRouter>
     <AuthProvider>
       <div className="d-flex flex-column h-100">
@@ -77,3 +77,5 @@ export default ({ socket }) => (
     </AuthProvider>
   </BrowserRouter>
 );
+
+export default App;

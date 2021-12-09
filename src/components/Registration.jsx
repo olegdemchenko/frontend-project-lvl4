@@ -19,7 +19,7 @@ import useAuth from '../hooks/index.jsx';
 import logo from '../../assets/img/signupIcon.jpg';
 import routes from '../routes';
 
-export default () => {
+const Registration = () => {
   const { logIn } = useAuth();
   const [isRegistrationFailed, setRegistrationFailed] = useState(false);
   const usernameRef = useRef();
@@ -139,3 +139,5 @@ export default () => {
     </Container>
   );
 };
+
+export default Registration;

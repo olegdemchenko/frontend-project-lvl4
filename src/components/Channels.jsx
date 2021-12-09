@@ -19,7 +19,7 @@ import {
 } from '../store/channelsSlice';
 import selectModal from './modals';
 
-export default ({ selectChannel }) => {
+const Channels = ({ selectChannel }) => {
   const modalInfo = useSelector(selectCurrentModal);
   const dispatch = useDispatch();
   const openModal = (info) => dispatch(setModalInfo(info));
@@ -118,3 +118,5 @@ export default ({ selectChannel }) => {
     </Col>
   );
 };
+
+export default Channels;

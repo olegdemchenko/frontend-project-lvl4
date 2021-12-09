@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-export default ({ onHide, handleSubmit, item }) => {
+const Remove = ({ onHide, handleSubmit, item }) => {
   const [status, setStatus] = useState('filling');
   const { t } = useTranslation();
   return (
@@ -37,3 +37,5 @@ export default ({ onHide, handleSubmit, item }) => {
     </Modal>
   );
 };
+
+export default Remove;

@@ -11,7 +11,7 @@ import { fetchInitData, selectStatus, changeCurrentChannel } from '../store/chat
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 
-export default () => {
+const Chat = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchInitData());
@@ -63,3 +63,5 @@ export default () => {
     </Container>
   );
 };
+
+export default Chat;

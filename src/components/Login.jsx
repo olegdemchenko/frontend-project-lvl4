@@ -18,7 +18,7 @@ import routes from '../routes';
 import useAuth from '../hooks/index.jsx';
 import logo from '../../assets/img/loginIcon.jpeg';
 
-export default () => {
+const Login = () => {
   const { logIn } = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
   const usernameRef = useRef();
@@ -103,3 +103,5 @@ export default () => {
     </Container>
   );
 };
+
+export default Login;

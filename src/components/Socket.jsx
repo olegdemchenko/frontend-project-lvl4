@@ -21,7 +21,7 @@ import {
   deleteChannel,
 } from '../store/channelsSlice';
 
-export default ({ socket, children }) => {
+const Socket = ({ socket, children }) => {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -116,3 +116,5 @@ export default ({ socket, children }) => {
     </SocketContext.Provider>
   );
 };
+
+export default Socket;

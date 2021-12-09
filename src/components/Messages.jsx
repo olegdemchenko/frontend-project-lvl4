@@ -9,7 +9,7 @@ import DictionaryFilterContext from '../contexts/DictionaryFilterContext';
 import { selectCurrentMessages, selectStatus } from '../store/messagesSlice';
 import { selectCurrentChannel, selectModal } from '../store/channelsSlice';
 
-export default () => {
+const Messages = () => {
   const status = useSelector(selectStatus);
   const modal = useSelector(selectModal);
   const currentChannel = useSelector(selectCurrentChannel);
@@ -77,3 +77,5 @@ export default () => {
     </Col>
   );
 };
+
+export default Messages;
