@@ -19,9 +19,6 @@ export default () => {
 
   const { t } = useTranslation();
   const chatStatus = useSelector(selectStatus);
-  if (chatStatus === 'fetchDataError') {
-    return <Alert variant="danger">{t('chat.errors.fetchDataFailed')}</Alert>;
-  }
 
   const chatNotificationsMap = {
     addChannelSuccess: t('chat.addChannelSuccess'),
@@ -47,6 +44,10 @@ export default () => {
       });
     }
   }, [chatStatus]);
+
+  if (chatStatus === 'fetchDataError') {
+    return <Alert variant="danger">{t('chat.errors.fetchDataFailed')}</Alert>;
+  }
 
   const selectChannel = (channelId) => {
     dispatch(changeCurrentChannel(channelId));

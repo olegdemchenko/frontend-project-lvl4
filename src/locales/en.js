@@ -28,7 +28,7 @@ export default {
       renameChannelSuccess: 'Channel is renamed',
       removeChannelSuccess: 'Channel is removed',
       errors: {
-        fetchDataFailed: 'Oops! Something went wrong. Please try again later',
+        fetchDataFailed: 'Connection error',
         addChannelError: 'Error occured during creating a new channel',
         renameChannelError: 'Error occured during renaming the channel',
         removeChannelError: 'Error occured during removing the channel',

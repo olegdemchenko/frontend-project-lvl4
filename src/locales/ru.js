@@ -31,7 +31,7 @@ export default {
       renameChannelSuccess: 'Канал переименован',
       removeChannelSuccess: 'Канал удалён',
       errors: {
-        fetchDataFailed: 'Упс! Что-то пошло не так. Пожалуйста, попробуйте позже.',
+        fetchDataFailed: 'Ошибка соединения',
         addChannelError: 'Произошла ошибка при создании нового канала',
         renameChannelError: 'Произошла ошибка при переименовании канала',
         removeChannelError: 'Произошла ошибка при удалении канала',
