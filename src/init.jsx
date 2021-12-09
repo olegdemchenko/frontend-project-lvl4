@@ -1,13 +1,10 @@
 // @ts-check
 import React from 'react';
-//import { Provider } from 'react-redux';
 import i18n from 'i18next';
 import io from 'socket.io-client';
 import { initReactI18next } from 'react-i18next';
 import filter from 'leo-profanity';
 
-//import store from './store/store.js';
-//import Socket from './components/Socket.jsx';
 import App from './components/App.jsx';
 import resources from './locales';
 import DictionaryFilterContext from './contexts/DictionaryFilterContext.js';
