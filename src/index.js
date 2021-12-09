@@ -1,6 +1,7 @@
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 import '../assets/application.scss';
+import '../assets/additionalStyles.css';
 import ReactDOM from 'react-dom';
 
 import init from './init.jsx';
