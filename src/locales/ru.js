@@ -57,6 +57,7 @@ export default {
         cancel: 'Отменить',
         send: 'Отправить',
         channelName: 'Имя канала',
+        channelControl: 'Управление каналом',
         errors: {
           required: 'Обязательное поле',
           unique: 'Должно быть уникальным',

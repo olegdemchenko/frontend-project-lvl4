@@ -76,7 +76,9 @@ export default ({ selectChannel }) => {
   const renderDropdown = (id, name) => (
     <Dropdown className="d-flex" as={ButtonGroup} variant={getVariant(id)}>
       {renderButton(id, name)}
-      <Dropdown.Toggle variant={getVariant(id)} split aria-haspopup />
+      <Dropdown.Toggle variant={getVariant(id)} split aria-haspopup>
+        <span className="visually-hidden">{t('modals.common.channelControl')}</span>
+      </Dropdown.Toggle>
       <Dropdown.Menu>
         <Dropdown.Item href="#" onClick={() => openModal({ type: 'remove', item: id })}>{t('channels.delete')}</Dropdown.Item>
         <Dropdown.Item href="#" onClick={() => openModal({ type: 'rename', item: id })}>{t('channels.rename')}</Dropdown.Item>

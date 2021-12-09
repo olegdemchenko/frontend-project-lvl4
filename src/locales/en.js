@@ -54,6 +54,7 @@ export default {
         cancel: 'Cancel',
         send: 'Send',
         channelName: 'Name of the channel',
+        channelControl: 'Channel managing',
         errors: {
           required: 'Required field',
           unique: 'Must be unique',
