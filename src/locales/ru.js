@@ -27,9 +27,9 @@ export default {
       },
     },
     chat: {
-      addChannelSuccess: 'Канал добавлен',
+      addChannelSuccess: 'Канал создан',
       renameChannelSuccess: 'Канал переименован',
-      removeChannelSuccess: 'Канал удален',
+      removeChannelSuccess: 'Канал удалён',
       errors: {
         fetchDataFailed: 'Упс! Что-то пошло не так. Пожалуйста, попробуйте позже.',
         addChannelError: 'Произошла ошибка при создании нового канала',
