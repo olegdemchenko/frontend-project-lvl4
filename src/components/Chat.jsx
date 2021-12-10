@@ -23,7 +23,7 @@ const Chat = () => {
   }, []);
 
   const { t } = useTranslation();
-  const chatStatus = 'fetchDataError';
+  const chatStatus = useSelector(selectStatus);
 
   const chatNotificationsMap = {
     addChannelSuccess: t('chat.addChannelSuccess'),
