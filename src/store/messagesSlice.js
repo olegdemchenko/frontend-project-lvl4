@@ -54,7 +54,7 @@ export const {
 
 export const selectCurrentMessages = createSelector(
   selectMessages,
-  (state) => state.chat.currentChannelId,
+  (state) => state.channels.currentChannelId,
   (messages,
     currentChannelId) => messages.filter(({ channelId }) => channelId === currentChannelId),
 );

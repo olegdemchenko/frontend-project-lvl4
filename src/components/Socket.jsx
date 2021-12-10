@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import SocketContext from '../contexts/SocketContext';
 import {
-  changeCurrentChannel,
-  selectDefaultChannel,
   setStatus as setChatStatus,
 } from '../store/chatSlice';
 import {
@@ -19,6 +17,8 @@ import {
   setStatus as setChannelsStatus,
   renameChannel,
   deleteChannel,
+  setCurrentChannel,
+  setDefaultChannel,
 } from '../store/channelsSlice';
 
 const Socket = ({ socket, children }) => {
@@ -38,7 +38,7 @@ const Socket = ({ socket, children }) => {
     });
     socket.on('newChannel', (channel) => {
       dispatch(addChannel(channel));
-      dispatch(changeCurrentChannel(channel.id));
+      dispatch(setCurrentChannel(channel.id));
       dispatch(setChatStatus('addChannelSuccess'));
     });
     socket.on('renameChannel', (channel) => {
@@ -48,7 +48,7 @@ const Socket = ({ socket, children }) => {
     socket.on('removeChannel', (channel) => {
       dispatch(deleteChannel(channel));
       dispatch(deleteChannelMessages(channel));
-      dispatch(selectDefaultChannel());
+      dispatch(setDefaultChannel());
       dispatch(setChatStatus('removeChannelSuccess'));
     });
     return () => {

@@ -16,10 +16,11 @@ import {
   selectStatus,
   selectModal as selectCurrentModal,
   setModalInfo,
+  setCurrentChannel,
 } from '../store/channelsSlice';
 import selectModal from './modals';
 
-const Channels = ({ selectChannel }) => {
+const Channels = () => {
   const modalInfo = useSelector(selectCurrentModal);
   const dispatch = useDispatch();
   const openModal = (info) => dispatch(setModalInfo(info));
@@ -66,7 +67,7 @@ const Channels = ({ selectChannel }) => {
     <Button
       className="w-100 rounded-0 text-start text-truncate"
       variant={getVariant(id)}
-      onClick={() => selectChannel(id)}
+      onClick={() => dispatch(setCurrentChannel(id))}
     >
       <span className="me-1">#</span>
       {name}

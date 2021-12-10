@@ -11,6 +11,8 @@ const channelsAdapter = createEntityAdapter();
 
 const initialState = channelsAdapter.getInitialState({
   status: 'pending',
+  currentChannelId: null,
+  defaultChannelId: null,
   modal: {},
 });
 
@@ -22,6 +24,12 @@ const channelsSlice = createSlice({
     addChannel: channelsAdapter.addOne,
     setModalInfo: (state, action) => {
       state.modal = action.payload;
+    },
+    setCurrentChannel: (state, action) => {
+      state.currentChannelId = action.payload;
+    },
+    setDefaultChannel: (state) => {
+      state.currentChannelId = state.defaultChannelId;
     },
     renameChannel: channelsAdapter.upsertOne,
     deleteChannel: (state, action) => {
@@ -35,6 +43,8 @@ const channelsSlice = createSlice({
     builder
       .addCase(fetchInitData.fulfilled, (state, action) => {
         channelsAdapter.addMany(state, action.payload.channels);
+        state.currentChannelId = action.payload.currentChannelId;
+        state.defaultChannelId = action.payload.currentChannelId;
       })
       .addCase(reset, () => initialState);
   },
@@ -49,6 +59,8 @@ export const {
   deleteChannel,
   setStatus,
   setModalInfo,
+  setCurrentChannel,
+  setDefaultChannel,
 } = channelsSlice.actions;
 
 export const {
@@ -56,15 +68,15 @@ export const {
   selectById: selectChannelById,
 } = channelsAdapter.getSelectors((state) => state.channels);
 
-export const selectCurrentChannel = createSelector(
-  selectChannels,
-  (state) => state.chat.currentChannelId,
-  (channels, currentChannelId) => channels.find(({ id }) => id === currentChannelId),
-);
-
 export const selectChannelsNames = createSelector(
   selectChannels,
   (channels) => channels.map(({ name }) => name),
+);
+
+export const selectCurrentChannel = createSelector(
+  selectChannels,
+  (state) => state.channels.currentChannelId,
+  (channels, currentChannelId) => channels.find(({ id }) => id === currentChannelId),
 );
 
 export const selectStatus = (state) => state.channels.status;
