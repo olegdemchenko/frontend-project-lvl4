@@ -18,8 +18,6 @@ export const fetchInitData = createAsyncThunk('chat/fetchInitData', async () => 
 
 const initialState = {
   status: 'idle',
-  defaultChannelId: null,
-  currentChannelId: null,
 };
 
 const chatSlice = createSlice({
