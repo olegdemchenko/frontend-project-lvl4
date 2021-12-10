@@ -52,29 +52,30 @@ const RequireAuth = ({ children }) => {
 
 const App = ({ socket }) => (
   <BrowserRouter>
-    <AuthProvider>
-      <div className="d-flex flex-column h-100">
-        <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              (
-                <RequireAuth>
-                  <Provider store={store}>
-                    <Socket socket={socket}>
+    <Provider store={store}>
+      <Socket socket={socket}>
+        <AuthProvider>
+          <div className="d-flex flex-column h-100">
+            <Header />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  (
+                    <RequireAuth>
                       <Chat />
-                    </Socket>
-                  </Provider>
-                </RequireAuth>
-              )
-        } />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </AuthProvider>
+                    </RequireAuth>
+                  )
+                }
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </AuthProvider>
+      </Socket>
+    </Provider>
   </BrowserRouter>
 );
 
