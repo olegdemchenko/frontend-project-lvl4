@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react';
-import { Container, Row, Alert } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Alert,
+  Spinner,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
@@ -18,7 +23,7 @@ const Chat = () => {
   }, []);
 
   const { t } = useTranslation();
-  const chatStatus = useSelector(selectStatus);
+  const chatStatus = 'fetchDataError';
 
   const chatNotificationsMap = {
     addChannelSuccess: t('chat.addChannelSuccess'),
@@ -45,16 +50,26 @@ const Chat = () => {
     }
   }, [chatStatus]);
 
-  if (chatStatus === 'fetchDataError') {
-    return <Alert variant="danger">{t('chat.errors.fetchDataFailed')}</Alert>;
-  }
+  const chatRenderMapping = {
+    fetchDataPending: (
+      <div className="h-100 d-flex justify-content-center align-items-center">
+        <Spinner className="" animation="border" variant="primary" />
+      </div>
+    ),
+    fetchDataSuccess: (
+      <>
+        <Channels />
+        <Messages />
+        <ToastContainer />
+      </>
+    ),
+    fetchDataError: <Alert className="mb-0" variant="danger">{t('chat.errors.fetchDataFailed')}</Alert>,
+  };
 
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100 bg-white flex-md-row">
-        <Channels />
-        <Messages />
-        <ToastContainer />
+        {chatRenderMapping[chatStatus]}
       </Row>
     </Container>
   );
