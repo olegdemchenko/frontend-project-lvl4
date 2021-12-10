@@ -25,31 +25,6 @@ const Chat = () => {
   const { t } = useTranslation();
   const chatStatus = useSelector(selectStatus);
 
-  const chatNotificationsMap = {
-    addChannelSuccess: t('chat.addChannelSuccess'),
-    addChannelError: t('chat.errors.addChannelError'),
-    renameChannelSuccess: t('chat.renameChannelSuccess'),
-    renameChannelError: t('chat.errors.renameChannelError'),
-    removeChannelSuccess: t('chat.removeChannelSuccess'),
-    removeChannelError: t('chat.errors.removeChannelError'),
-    sendMessageError: t('chat.errors.sendMessageError'),
-  };
-
-  useEffect(() => {
-    if (chatNotificationsMap[chatStatus]) {
-      const notificationType = chatStatus.includes('error') ? 'error' : 'success';
-      toast[notificationType](chatNotificationsMap[chatStatus], {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-  }, [chatStatus]);
-
   const chatRenderMapping = {
     fetchDataPending: (
       <div className="h-100 d-flex justify-content-center align-items-center">
@@ -60,7 +35,6 @@ const Chat = () => {
       <>
         <Channels />
         <Messages />
-        <ToastContainer />
       </>
     ),
     fetchDataError: <Alert className="mb-0" variant="danger">{t('chat.errors.fetchDataFailed')}</Alert>,

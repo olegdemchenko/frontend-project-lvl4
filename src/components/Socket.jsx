@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import SocketContext from '../contexts/SocketContext';
 import {
@@ -23,8 +25,10 @@ import {
 
 const Socket = ({ socket, children }) => {
   const [error, setError] = useState(null);
+  const [notification, notify] = useState(null);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
   useEffect(() => {
     socket.on('connect', () => {
       console.log('websocket has been connected!');
@@ -39,22 +43,47 @@ const Socket = ({ socket, children }) => {
     socket.on('newChannel', (channel) => {
       dispatch(addChannel(channel));
       dispatch(setCurrentChannel(channel.id));
-      dispatch(setChatStatus('addChannelSuccess'));
+      notify('addChannelSuccess');
     });
     socket.on('renameChannel', (channel) => {
       dispatch(renameChannel(channel));
-      dispatch(setChatStatus('renameChannelSuccess'));
+      notify('renameChannelSuccess');
     });
     socket.on('removeChannel', (channel) => {
       dispatch(deleteChannel(channel));
       dispatch(deleteChannelMessages(channel));
       dispatch(setDefaultChannel());
-      dispatch(setChatStatus('removeChannelSuccess'));
+      notify('removeChannelSuccess');
     });
     return () => {
       socket.disconnect();
     };
   }, []);
+
+  const notificationsMap = {
+    addChannelSuccess: t('chat.addChannelSuccess'),
+    addChannelError: t('chat.errors.addChannelError'),
+    renameChannelSuccess: t('chat.renameChannelSuccess'),
+    renameChannelError: t('chat.errors.renameChannelError'),
+    removeChannelSuccess: t('chat.removeChannelSuccess'),
+    removeChannelError: t('chat.errors.removeChannelError'),
+    sendMessageError: t('chat.errors.sendMessageError'),
+  };
+
+  useEffect(() => {
+    if (notificationsMap[notification]) {
+      const notificationType = notification.includes('error') ? 'error' : 'success';
+      toast[notificationType](notificationsMap[notification], {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }, [notification]);
 
   const sendMessage = (message) => {
     dispatch(setMessagesStatus('sending'));
@@ -113,6 +142,7 @@ const Socket = ({ socket, children }) => {
     }}
     >
       {children}
+      <ToastContainer />
     </SocketContext.Provider>
   );
 };
