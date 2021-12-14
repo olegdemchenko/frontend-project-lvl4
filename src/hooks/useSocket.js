@@ -3,16 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
 import {
-  setStatus as setChatStatus,
+  setChatStatus,
 } from '../store/chatSlice';
 import {
   addMessage,
-  setStatus as setMessagesStatus,
+  setMessagesStatus,
   deleteChannelMessages,
 } from '../store/messagesSlice';
 import {
   addChannel,
-  setStatus as setChannelsStatus,
+  setChannelsStatus,
   renameChannel,
   deleteChannel,
   setCurrentChannel,

@@ -24,7 +24,7 @@ const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    setStatus(state, action) {
+    setChatStatus(state, action) {
       state.status = action.payload;
     },
     reset() {
@@ -48,7 +48,7 @@ const chatSlice = createSlice({
 export default chatSlice.reducer;
 
 export const {
-  setStatus,
+  setChatStatus,
   reset,
 } = chatSlice.actions;
 

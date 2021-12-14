@@ -35,7 +35,7 @@ const channelsSlice = createSlice({
     deleteChannel: (state, action) => {
       channelsAdapter.removeOne(state, action.payload.id);
     },
-    setStatus: (state, action) => {
+    setChannelsStatus: (state, action) => {
       state.status = action.payload;
     },
   },
@@ -57,7 +57,7 @@ export const {
   addChannel,
   renameChannel,
   deleteChannel,
-  setStatus,
+  setChannelsStatus,
   setModalInfo,
   setCurrentChannel,
   setDefaultChannel,

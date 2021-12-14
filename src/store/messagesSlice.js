@@ -25,7 +25,7 @@ const messagesSlice = createSlice({
         .map(({ id }) => id);
       messagesAdapter.removeMany(state, channelMessagesIds);
     },
-    setStatus: (state, action) => {
+    setMessagesStatus: (state, action) => {
       state.status = action.payload;
     },
   },
@@ -43,7 +43,7 @@ export default messagesSlice.reducer;
 export const {
   addMessage,
   addMessages,
-  setStatus,
+  setMessagesStatus,
   deleteChannelMessages,
 } = messagesSlice.actions;
 
