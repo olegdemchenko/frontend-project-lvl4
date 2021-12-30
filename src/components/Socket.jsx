@@ -25,7 +25,7 @@ const Socket = ({ socket, children }) => {
 
   useEffect(() => {
     if (notificationsMap[notification]) {
-      const notificationType = notification.includes('error') ? 'error' : 'success';
+      const notificationType = notification.includes('Error') ? 'error' : 'success';
       toast[notificationType](notificationsMap[notification], {
         position: 'top-right',
         autoClose: 5000,
