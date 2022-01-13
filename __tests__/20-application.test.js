@@ -1,7 +1,3 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import '@testing-library/jest-dom';
-
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import {
