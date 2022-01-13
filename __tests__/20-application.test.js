@@ -222,9 +222,6 @@ describe('chat', () => {
 
     userEvent.click(await screen.findByRole('button', { name: /Управление каналом/i }));
     userEvent.click(await screen.findByRole('button', { name: /Удалить/i }));
-
-    // TODO: у студента https://github.com/poludnev/frontend-project-lvl4 не скрываются кнопки при открытии модалки
-    // пока такой костыль
     const buttons = await screen.findAllByRole('button', { name: /Удалить/i });
     userEvent.click(buttons[buttons.length - 1]);
 
@@ -247,7 +244,6 @@ describe('toastr check error', () => {
       userEvent.type(await screen.findByLabelText(/Пароль/i), 'pass');
       userEvent.click(await screen.findByRole('button', { name: /Войти/i }));
     } catch (e) {
-      // в компоненте может быть необработанная ошибка
       console.error(e);
     }
     expect(await screen.findByText(/Ошибка соединения/i)).toBeInTheDocument();
