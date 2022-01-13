@@ -1,3 +1,6 @@
+import 'core-js';
+import 'regenerator-runtime';
+
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import {
