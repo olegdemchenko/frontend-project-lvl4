@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
@@ -20,12 +20,10 @@ import logo from '../../assets/img/loginIcon.jpeg';
 
 const Login = () => {
   const { logIn } = useAuth();
-  const [authFailed, setAuthFailed] = useState(false);
   const usernameRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
-
   useEffect(() => {
     usernameRef.current.focus();
   }, []);
@@ -35,7 +33,7 @@ const Login = () => {
       username: '',
       password: '',
     },
-    onSubmit: async ({ username, password }) => {
+    onSubmit: async ({ username, password }, { setErrors }) => {
       try {
         const { data } = await axios.post(routes.loginPath(), { username, password });
         localStorage.setItem('userId', JSON.stringify(data));
@@ -44,7 +42,10 @@ const Login = () => {
         navigate(from);
       } catch (e) {
         if (e.isAxiosError && e.response.status === 401) {
-          setAuthFailed(true);
+          setErrors({
+            username: t('login.errors.wrongCredentials'),
+            password: t('login.errors.wrongCredentials'),
+          });
           return;
         }
         throw e;
@@ -67,8 +68,11 @@ const Login = () => {
                   <FloatingLabel label={t('common.nickname')} controlId="username">
                     <Form.Control
                       ref={usernameRef}
-                      onChange={formik.handleChange}
-                      isInvalid={authFailed}
+                      onChange={(e) => {
+                        formik.setErrors({});
+                        formik.setFieldValue('username', e.target.value);
+                      }}
+                      isInvalid={formik.errors.username}
                       name="username"
                       placeholder={t('common.nickname')}
                       required
@@ -80,12 +84,15 @@ const Login = () => {
                     <Form.Control
                       type="password"
                       name="password"
-                      onChange={formik.handleChange}
-                      isInvalid={authFailed}
+                      onChange={(e) => {
+                        formik.setErrors({});
+                        formik.setFieldValue('password', e.target.value);
+                      }}
+                      isInvalid={formik.errors.password}
                       placeholder={t('common.password')}
                       required
                     />
-                    {authFailed && <Form.Control.Feedback tooltip type="invalid">{t('login.errors.wrongCredentials')}</Form.Control.Feedback>}
+                    {formik.errors.password && <Form.Control.Feedback tooltip type="invalid">{formik.errors.password}</Form.Control.Feedback>}
                   </FloatingLabel>
                 </Form.Group>
                 <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('login.enter')}</Button>
