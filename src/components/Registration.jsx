@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import {
   Container,
@@ -21,7 +21,6 @@ import routes from '../routes';
 
 const Registration = () => {
   const { logIn } = useAuth();
-  const [isRegistrationFailed, setRegistrationFailed] = useState(false);
   const usernameRef = useRef();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -49,7 +48,7 @@ const Registration = () => {
         then: Yup.string().oneOf([Yup.ref('password')], t('registration.errors.passwordsNotEqual')),
       }),
     }),
-    onSubmit: async ({ username, password }) => {
+    onSubmit: async ({ username, password }, { setErrors }) => {
       try {
         const response = await axios.post(routes.signupPath(), { username, password });
         localStorage.setItem('userId', JSON.stringify(response.data));
@@ -57,19 +56,13 @@ const Registration = () => {
         navigate('/');
       } catch (e) {
         if (e.isAxiosError && e.response.status === 409) {
-          setRegistrationFailed(true);
+          setErrors({ username: t('registration.errors.duplicatedUsername') });
           return;
         }
         throw e;
       }
     },
   });
-
-  useEffect(() => {
-    if (isRegistrationFailed) {
-      formik.setErrors({ username: t('registration.errors.duplicatedUsername') });
-    }
-  }, [isRegistrationFailed]);
 
   return (
     <Container className="h-100" fluid>
