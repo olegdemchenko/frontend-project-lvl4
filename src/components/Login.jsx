@@ -68,10 +68,7 @@ const Login = () => {
                   <FloatingLabel label={t('common.nickname')} controlId="username">
                     <Form.Control
                       ref={usernameRef}
-                      onChange={(e) => {
-                        formik.setErrors({});
-                        formik.setFieldValue('username', e.target.value);
-                      }}
+                      onChange={formik.handleChange}
                       isInvalid={formik.errors.username}
                       name="username"
                       placeholder={t('common.nickname')}
@@ -84,15 +81,12 @@ const Login = () => {
                     <Form.Control
                       type="password"
                       name="password"
-                      onChange={(e) => {
-                        formik.setErrors({});
-                        formik.setFieldValue('password', e.target.value);
-                      }}
+                      onChange={formik.handleChange}
                       isInvalid={formik.errors.password}
                       placeholder={t('common.password')}
                       required
                     />
-                    {formik.errors.password && <Form.Control.Feedback tooltip type="invalid">{formik.errors.password}</Form.Control.Feedback>}
+                    <Form.Control.Feedback tooltip type="invalid">{formik.errors.password}</Form.Control.Feedback>
                   </FloatingLabel>
                 </Form.Group>
                 <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('login.enter')}</Button>
